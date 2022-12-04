@@ -10,9 +10,7 @@ import { Avatar, useToast } from "@chakra-ui/react"
 const Tenant = () => {
   return (
     <>
-      <div>
-        <Sidebar />
-      </div>
+      <div>{/* <Sidebar /> */}</div>
     </>
   )
 }

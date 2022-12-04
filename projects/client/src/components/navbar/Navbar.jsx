@@ -6,6 +6,7 @@ import { HiX, HiMenu } from "react-icons/hi"
 import Login from "../../pages/Login"
 import { Link, Outlet } from "react-router-dom"
 import Popular from "../popular/Popular"
+import { useSelector } from "react-redux"
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -17,6 +18,7 @@ const Navbar = () => {
   const removeNav = () => {
     setActive("navBar")
   }
+  const authSelector = useSelector((state) => state.auth)
 
   const [transparent, setTransparent] = useState("header")
   const addBg = () => {
@@ -62,7 +64,7 @@ const Navbar = () => {
               </a>
             </li>
             <li className="navItem">
-              <a href="/tenant" className="navLink">
+              <a href={`/tenant/${authSelector.id}`} className="navLink">
                 Tenant Page
               </a>
             </li>

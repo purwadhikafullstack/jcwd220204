@@ -227,7 +227,11 @@ const EditProfile = () => {
                       className="rounded-circle"
                       alt="Avatar Preview"
                       name={authSelector.username}
-                      src={authSelector.profile_picture}
+                      src={
+                        formik.values.profile_picture
+                          ? URL.createObjectURL(formik.values.profile_picture)
+                          : authSelector.profile_picture
+                      }
                       style={{
                         marginLeft: "50px",
                         marginTop: "20px",
