@@ -1,11 +1,12 @@
-require("dotenv/config")
-const express = require("express")
-const cors = require("cors")
-const { join } = require("path")
-const db = require("../models")
+require("dotenv/config");
+const express = require("express");
+const cors = require("cors");
+const { join } = require("path");
+const db = require("../models");
+const fs = require("fs")
 
-const PORT = process.env.PORT || 8000
-const app = express()
+const PORT = process.env.PORT || 8000;
+const app = express();
 // app.use(
 //   cors({
 //     origin: [
@@ -13,16 +14,19 @@ const app = express()
 //         process.env.WHITELISTED_DOMAIN.split(","),
 //     ],
 //   })
-// )
+// );
+
 
 app.use(cors())
-app.use(express.json())
+app.use(express.json());
 
 const authRoute = require("../routes/authRoute")
 
 app.use("/auth", authRoute)
 
-//#region API ROUTES
+app.use("/public", express.static("public"))
+
+//#region API ROUTES 
 
 // ===========================
 // NOTE : Add your routes here
@@ -76,6 +80,10 @@ app.listen(PORT, (err) => {
     console.log(`ERROR: ${err}`)
   } else {
     db.sequelize.sync({ alter: true })
-    console.log(`APP RUNNING at ${PORT} ✅`)
+
+    if (!fs.existsSync("public")) {
+      fs.mkdirSync("public")
+    }
+    console.log(`APP RUNNING at ${PORT} ✅`);
   }
 })

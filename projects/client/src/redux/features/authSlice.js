@@ -3,11 +3,14 @@ import { createSlice } from "@reduxjs/toolkit"
 const initialState = {
   id: 0,
   email: "",
-  role: "",
-  is_verified: Boolean,
-  // is_loading: false
   // first_name: "",
   // last_name: ""
+  gender: "",
+  birthdate: "",
+  profile_picture: "",
+  role: "",
+  phone_number: "",
+  ktp: "",
 }
 
 const authSlice = createSlice({
@@ -16,25 +19,30 @@ const authSlice = createSlice({
   reducers: {
     login: (state, action) => {
       state.id = action.payload.id
+      state.username = action.payload.username
       state.email = action.payload.email
+      state.gender = action.payload.gender
+      state.birthdate = action.payload.birthdate
+      state.profile_picture = action.payload.profile_picture
       state.role = action.payload.role
-      state.is_verified = action.payload.is_verified
-      // state.is_loading = false
-      // console.log(action.payload)
+      state.phone_number = action.payload.phone_number
+      state.ktp = action.payload.ktp
       // state.first_name = action.payload.first_name
       // state.last_name = action.payload.last_name
+      console.log(action.payload)
     },
     logout: (state) => {
       state.id = 0
       state.email = ""
-      state.role = ""
       // state.first_name = ""
       // state.last_name = ""
+      state.gender = ""
+      state.birthdate = ""
+      state.profile_picture = ""
+      state.role = ""
+      state.phone_number = ""
+      state.ktp = ""
     },
-    // login_request: (state) => {
-    //   state.is_loading = true
-    // },
-    // login_failed: state => state.is_loading = false
   },
 })
 

@@ -14,18 +14,18 @@ module.exports = (sequelize, DataTypes) => {
   User.init(
     {
       first_name: DataTypes.STRING,
-      last_name: DataTypes.STRING,
+    last_name: DataTypes.STRING,
       email: DataTypes.STRING,
-      gender: DataTypes.STRING,
-      phone_number: DataTypes.STRING,
-      birthdate: DataTypes.DATE,
-      profile_picture: DataTypes.STRING,
+      gender: { type: DataTypes.STRING, defaultValue: "your gender" },
+      birthdate: { type: DataTypes.DATEONLY, defaultValue: DataTypes.NOW },
+      profile_picture: { type: DataTypes.STRING, defaultValue: "your name" },
       is_verified: {
         defaultValue: false,
         type: DataTypes.BOOLEAN,
       },
       ktp: DataTypes.STRING,
       role: { type: DataTypes.STRING, defaultValue: "user" },
+      phone_number: DataTypes.STRING,
     },
     {
       sequelize,
