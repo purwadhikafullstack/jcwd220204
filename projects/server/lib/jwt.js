@@ -7,9 +7,10 @@ const signToken = (payload) => {
 }
 
 const validateToken = (token) => {
-  return jwt.verify(token, SECRET_KEY)
+    return jwt.verify(token, SECRET_KEY)
 }
+
 module.exports = {
   signToken,
-  validateToken,
+  validateToken
 }

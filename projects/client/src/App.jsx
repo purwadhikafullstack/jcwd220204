@@ -1,30 +1,26 @@
 import axios from "axios"
-import logo from "./logo.svg"
+import { useEffect, useState } from "react"
+import { Route, Routes } from "react-router-dom"
+import RegisterTenant from "./pages/RegisterTenant"
+import RegisterUser from "./pages/RegisterUser"
 import "./App.css"
 import { useEffect, useState } from "react"
 import Home from "./components/home/Home"
-
-import { Route, Router, Routes, useLocation } from "react-router-dom"
+import { Route, Routes, useLocation } from "react-router-dom"
 import Login from "./pages/Login"
-import { Link } from "react-router-dom"
 import Navbar from "./components/navbar/Navbar"
-import SignUpForm from "./components/sign-up-form/sign-up-form.components"
-import SignInForm from "./components/sign-in-form/sign-in-form.components"
 import MyProfile from "./components/my-profile/MyProfile"
 import EditProfile from "./components/edit-profile/EditProfile"
 import Tenant from "./components/Tenant/Tenant"
 import NotFoundPage from "./components/404"
-
 import { useDispatch, useSelector } from "react-redux"
 import { axiosInstance } from "./api/index"
 import { login } from "./redux/features/authSlice"
-
 import Dashboard from "./components/Tenant/Dashboard"
 import About from "./components/Tenant/About"
 import Comment from "./components/Tenant/Comment"
 import Analytics from "./components/Tenant/Analytics"
 import OrderList from "./components/Tenant/OrderList"
-
 import Property from "./components/Tenant/Property"
 // import Sidebar from "./components/sidebar/Sidebar"
 // import { useDispatch } from "react-redux"
@@ -54,16 +50,6 @@ function App() {
 
   //   return unsubscribe
   // }, [dispatch])
-  const renderTenaantRoutes = () => {
-    if (authSelector.role === "tenant") {
-      return (
-        <>
-          <Route path="/tenant" element={<Tenant />} />
-        </>
-      )
-    }
-    return null
-  }
 
   const [authCheck, setAuthCheck] = useState(false)
   const dispatch = useDispatch()
@@ -104,6 +90,7 @@ function App() {
   }, [])
 
   return (
+    
     // <div className="App">
     //   <header className="App-header">
     //     <img src={logo} className="App-logo" alt="logo" />
@@ -120,7 +107,8 @@ function App() {
         {/* <Route path="/" element={<Navbar />}> */}
         <Route index element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<SignUpForm />} />
+        <Route path="/RegisterUser" element={<RegisterUser />} />
+      <Route path="/RegisterTenant" element={<RegisterTenant />} />
         <Route
           path="/myprofile"
           element={authSelector.id === 0 ? <Login /> : <MyProfile />}
