@@ -1,9 +1,9 @@
 const multer = require("multer")
 
 const upload = ({
-    filePrefix = "FILE",
-    fileName = Date.now(),
-    acceptedFileTypes = [],
+  filePrefix = "FILE",
+  fileName = Date.now(),
+  acceptedFileTypes = [],
 }) => {
   const diskStorage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -18,6 +18,7 @@ const upload = ({
 
   const fileFilter = (req, file, cb) => {
     const extension = file.mimetype.split("/")[1]
+
     if (acceptedFileTypes.includes(extension)) {
       cb(null, true)
     } else {
