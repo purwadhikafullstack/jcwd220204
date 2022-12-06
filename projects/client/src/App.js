@@ -1,27 +1,27 @@
-import React from 'react'
+import axios from "axios";
+import logo from "./logo.svg";
+import "./App.css";
+import { useEffect, useState } from "react";
 
-//import routes and route
-import { Routes, Route } from 'react-router-dom'
+function App() {
+  const [message, setMessage] = useState("");
 
-// import components
-import Header from './components/Header'
-import Footer from './components/Footer'
-
-//import pages
-import Home from './pages/Home'
-import PropertyDetails from './pages/PropertyDetails'
-
-const App = () => {
+  useEffect(() => {
+    (async () => {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/greetings`
+      );
+      setMessage(data?.message || "");
+    })();
+  }, []);
   return (
-    <div className="max-w-[1440px] mx-auto bg-white">
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/property/:id" element={<PropertyDetails />} />
-      </Routes>
-      <Footer />
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        {message}
+      </header>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
