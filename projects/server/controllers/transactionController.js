@@ -93,8 +93,10 @@ const transactionController = {
         price: 30000,
         PropertyItemId: 1,
         PropertyId: 386,
+
         // UserId: 60,
         UserId: foundUserById.id,
+
         exp_date: expired_date,
         status: "waiting for payment",
       })

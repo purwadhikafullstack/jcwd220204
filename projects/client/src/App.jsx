@@ -1,4 +1,6 @@
 import axios from "axios"
+
+
 import { useEffect, useState } from "react"
 
 import { Route, Router, Routes, useLocation } from "react-router-dom"
@@ -20,6 +22,14 @@ import PostPropImg from "./components/postPropImg/post-prop-img.component"
 import EditProperty from "./components/editProperty/edit-property.component"
 import PaymentProof from "./components/proofPayment/proofPayment.component"
 import PaymentApproval from "./components/paymentApproval/paymentApproval"
+
+// import Sidebar from "./components/sidebar/Sidebar"
+// import { useDispatch } from "react-redux"
+// import {
+//   onAuthStateChangedListener,
+//   createUserDocumentFromAuth,
+// } from "./utils/firebase/firebase.utils"
+
 
 import DummyTransaction from "./components/dummyTransaction/dummyTransaction"
 
@@ -94,7 +104,9 @@ function App() {
         <Route path="/listing" element={<Listing />} />
         <Route path="/payment-proof/:id" element={<PaymentProof />} />
         <Route path="/payment-approval/:id" element={<PaymentApproval />} />
+
         <Route path="/dummy-transaction/" element={<DummyTransaction />} />
+
 
         <Route path="/listing/details/:id" element={<ListingDetails />} />
       </Routes>
