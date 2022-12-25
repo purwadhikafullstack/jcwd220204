@@ -23,14 +23,11 @@ import PaymentApproval from "./components/paymentApproval/paymentApproval"
 
 import DummyTransaction from "./components/dummyTransaction/dummyTransaction"
 
-
 function App() {
   const authSelector = useSelector((state) => state.auth)
   // console.log(authSelector, "test")
   const [message, setMessage] = useState("")
   const location = useLocation()
-
-
 
   const renderTenaantRoutes = () => {
     if (authSelector.role === "tenant") {
@@ -90,13 +87,6 @@ function App() {
           path="/tenant/:id"
           element={authSelector.role === "tenant" ? <Listing /> : null}
         />
-
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/comment" element={<Comment />} />
-        <Route path="/analytics" element={<Analytics />} />
-        <Route path="/property" element={<Property />} />
-        <Route path="/orderlist" element={<OrderList />} />
 
         <Route path="/property/edit/:id" element={<EditProperty />} />
         <Route path="/property-form" element={<PropertyForm />} />
