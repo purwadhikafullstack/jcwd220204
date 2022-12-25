@@ -23,27 +23,10 @@ module.exports = {
   },
   getRoom: async (req, res) => {
     try {
-      // const findRoomById = await Properties.findAll({
-      //   include: {
-      //     model: db.PropertyItems,
-      //     include: {
-      //       model: db.Images,
-      //     },
-      //     // include: [
-      //     //   {
-      //     //     model: Images,
-      //     //
-      //     //
-      //     //   },
-      //     // ],
-      //   },
-
       const findRoomById = await Properties.findByPk(req.params.id, {
         include: {
           model: db.PropertyItem,
-          include: {
-            model: db.Images,
-          },
+          include: [{ model: db.Images }, { model: db.Calendar }],
         },
       })
       res.status(200).json({
@@ -59,22 +42,12 @@ module.exports = {
   },
   createRoom: async (req, res) => {
     try {
-      // const foundPropertyById = await db.Property.findByPk(req.params.id)
-      // console.log(foundPropertyById)
-      // const foundPropertyById = await db.Property.findByPk(req.body.PropertyId)
-      // console.log(foundPropertyById)
-      // console.log(req.body.PropertyId)
-      // if (!foundPropertyById) {
-      //   throw new Error("Property id not found")
-      // }
       const createNewRoom = await Room.create({
         item_name: req.body.item_name,
         description: req.body.description,
         capacity: req.body.capacity,
         price: req.body.price,
-        // PropertyId: foundPropertyById,
         PropertyId: req.body.PropertyId,
-        // PropertyId: "1",
       })
 
       //================================Post Image

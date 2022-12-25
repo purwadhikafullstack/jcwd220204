@@ -6,6 +6,9 @@ const router = express.Router()
 
 router.get("/", propertiesController.getAllProperties)
 router.get("/:id", propertiesController.getPropertyById)
+router.get("/city/:id", propertiesController.getCityId)
+// router.get("/room", propertiesController.getRoom)
+
 router.post(
   "/",
   //   verifyToken,

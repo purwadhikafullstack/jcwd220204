@@ -10,11 +10,12 @@ const propertiesRoute = require("../routes/propertiesRoute")
 const roomRoute = require("../routes/roomRoute")
 const tenantRoute = require("../routes/tenantRoute")
 const citiesRoute = require("../routes/citiesRoute")
-const categoryRoute = require("../routes/categoriesRoute")
+const calendarRoute = require("../routes/calendarRoute")
 const transactionRoute = require("../routes/transactionRoute")
+const fs = require("fs")
+const categoryRoute = require("../routes/categoriesRoute")
 const schedule = require("../schedule/paymentCheck")
 
-const fs = require("fs")
 const { verifyToken } = require("../middlewares/authMiddleware")
 
 const PORT = process.env.PORT || 8000
@@ -47,12 +48,15 @@ app.get("/api/greetings", (req, res, next) => {
 
 app.use("/auth", authRoute)
 app.use("/public", express.static("public"))
+
+app.use("/calendar", calendarRoute)
+app.use("/transaction", transactionRoute)
+
 app.use("/property", verifyToken, propertiesRoute)
 app.use("/room", roomRoute)
 app.use("/tenant", tenantRoute)
 app.use("/cities", citiesRoute)
 app.use("/category", categoryRoute)
-app.use("/transaction", transactionRoute)
 
 // const register = require("./routes/register")
 
@@ -104,4 +108,3 @@ app.listen(PORT, (err) => {
     console.log(`APP RUNNING at ${PORT} ✅`)
   }
 })
-schedule.invoke()

@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
       Property.belongsTo(models.Cities)
       Property.belongsTo(models.User)
       Property.hasMany(models.PropertyItem, { onDelete: "CASCADE" })
-      Property.hasMany(models.PropertyFacilities)
       Property.hasMany(models.PropertyImage, { onDelete: "CASCADE" })
       Property.hasMany(models.Transaction)
     }

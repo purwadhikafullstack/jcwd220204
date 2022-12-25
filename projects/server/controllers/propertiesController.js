@@ -16,11 +16,6 @@ module.exports = {
         _sortDir = "ASC",
       } = req.query
       const findAllProperties = await Properties.findAndCountAll({
-        // where: {
-        //   cities_name: {
-        //     [Op.like]: `%${req.query.cities_name || ""}%`,
-        //   },
-        // },
         include: [
           {
             model: db.Cities,
@@ -74,6 +69,24 @@ module.exports = {
       })
     }
   },
+  getCityId: async (req, res) => {
+    try {
+      const findCity = await Cities.findByPk(req.params.id, {
+        include: {
+          model: db.Properties,
+        },
+      })
+      res.status(200).json({
+        message: "Find city  name",
+        data: findCity,
+      })
+    } catch (err) {
+      console.log(err)
+      return res.status(500).json({
+        message: err.message,
+      })
+    }
+  },
 
   getRoom: async (req, res) => {
     try {
@@ -83,13 +96,6 @@ module.exports = {
           include: {
             model: db.Images,
           },
-          // include: [
-          //   {
-          //     model: Images,
-          //
-          //
-          //   },
-          // ],
         },
       })
       res.status(200).json({
@@ -218,7 +224,6 @@ module.exports = {
     }
   },
   propertyImageDelete: async (req, res) => {
-    // console.log(fileName)
     const path = "public/propImg/"
 
     const fileName = await db.PropertyImage.findOne({

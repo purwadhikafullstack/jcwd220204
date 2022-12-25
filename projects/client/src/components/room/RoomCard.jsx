@@ -35,6 +35,7 @@ import {
   useToast,
   Flex,
   CloseButton,
+  AlertDialogContent,
 } from "@chakra-ui/react"
 import { BsThreeDotsVertical, BsUpload } from "react-icons/bs"
 import { axiosInstance } from "../../api"
@@ -46,6 +47,8 @@ import { BiEditAlt } from "react-icons/bi"
 import { TfiTrash } from "react-icons/tfi"
 import { useFormik } from "formik"
 import { BiUpload } from "react-icons/bi"
+import { Calendar } from "antd"
+import { Carousel } from "antd"
 
 const RoomCard = ({
   item_name,
@@ -56,6 +59,7 @@ const RoomCard = ({
   picture_url,
   onDelete,
   id,
+  calendars,
 }) => {
   const params = useParams()
   const toast = useToast()
@@ -133,7 +137,7 @@ const RoomCard = ({
   const getImagesNew = room.map(
     (val) => `http://localhost:8000/public/${val.picture_url}`
   )
-  console.log(getImagesNew)
+  // console.log(getImagesNew)
 
   const deleteRoomImg = async (id) => {
     try {
@@ -184,7 +188,11 @@ const RoomCard = ({
       console.log(err)
     }
   }
-  console.log(getImg)
+
+  //================================SHOW DATA IN CALENDAR
+
+  const getDate = calendars.map((val) => val.startDate)
+  console.log(getDate)
 
   useEffect(
     () => {
@@ -214,7 +222,6 @@ const RoomCard = ({
     URL.revokeObjectURL(image)
   }
 
-  console.log(formik)
   const settings = {
     dots: true,
     lazyLoad: true,
