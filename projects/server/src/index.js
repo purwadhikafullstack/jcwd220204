@@ -57,8 +57,8 @@ app.use("/property", verifyToken, propertiesRoute)
 app.use("/room", roomRoute)
 app.use("/tenant", tenantRoute)
 app.use("/cities", citiesRoute)
-app.use("/calendar", calendarRoute)
-app.use("/transaction", transactionRoute)
+app.use("/category", categoryRoute)
+
 // const register = require("./routes/register")
 
 // app.use("/signup", register)

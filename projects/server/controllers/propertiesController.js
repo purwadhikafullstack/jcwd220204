@@ -1,6 +1,8 @@
 const { Op } = require("sequelize")
 const db = require("../models")
 const Properties = db.Property
+const fs = require("fs")
+
 const Room = db.PropertyItem
 const Cities = db.Cities
 
@@ -85,6 +87,7 @@ module.exports = {
       })
     }
   },
+
   getRoom: async (req, res) => {
     try {
       const findRoomById = await Properties.findAll({
