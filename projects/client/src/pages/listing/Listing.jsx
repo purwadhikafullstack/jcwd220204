@@ -92,7 +92,7 @@ const Listing = () => {
             </ButtonGroup>
           </HStack>
         </Box>
-        <Box border={"2px solid red"}>
+        <Box>
           <Center>
             <Text
               fontFamily={"sans-serif"}

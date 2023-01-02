@@ -20,6 +20,10 @@ import {
   useDisclosure,
   useToast,
   textDecoration,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react"
 import { Carousel } from "antd"
 import React, { useEffect, useState } from "react"
@@ -188,9 +192,35 @@ const ListingDetails = () => {
         <Link to={`/tenant/${authSelector.id}`}>
           <GrLinkPrevious size={"25px"} />
         </Link>
-        <Link to={`/property/edit/${params.id}`}>
+        {/* ======================================= */}
+        {/* <Link to={`/property/edit/${params.id}`}>
           <BiEditAlt size={"25px"} />
-        </Link>
+        </Link> */}
+        <Menu>
+          <MenuButton
+            as={IconButton}
+            aria-Label="Option"
+            icon={<BiEditAlt />}
+            variant="outline"
+            border="none"
+            backgroundColor="transparent"
+            _hover={{ backgroundColor: "transparent" }}
+            cursor="pointer"
+            textColor="black"
+            textDecor="none"
+          />
+          <MenuList>
+            <MenuItem>
+              <Link to={`/property/edit/${params.id}`}>Edit Property</Link>
+            </MenuItem>
+            <MenuItem>
+              <Link to={`/property/image/${params.id}`}>
+                Edit Property Image
+              </Link>
+            </MenuItem>
+          </MenuList>
+        </Menu>
+        {/* ================================================ */}
       </HStack>
       <SimpleGrid
         columns={{ base: 1, lg: 2 }}

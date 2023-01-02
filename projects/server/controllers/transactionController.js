@@ -92,7 +92,7 @@ const transactionController = {
         end_date: end,
         price: 30000,
         PropertyItemId: 1,
-        PropertyId: 386,
+        PropertyId: 3,
 
         // UserId: 60,
         UserId: foundUserById.id,

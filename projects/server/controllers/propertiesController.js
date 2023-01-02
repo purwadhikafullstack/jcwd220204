@@ -193,15 +193,15 @@ module.exports = {
     }
   },
   propertyDelete: async (req, res) => {
-    // ======================== hapus file public==========================
-    const pathProp = "public/propImg/"
+    // ======================== hapus file public=============================
+    // const pathProp = "public/"
 
-    const fileName = await db.PropertyImage.findAll({
-      where: {
-        PropertyId: req.params.id,
-      },
-    })
-    console.log(fileName)
+    // const fileName = await db.PropertyImage.findAll({
+    //   where: {
+    //     PropertyId: req.params.id,
+    //   },
+    // })
+    // console.log(fileName)
     // ========================================================================
     try {
       await db.Property.destroy({
@@ -209,9 +209,9 @@ module.exports = {
           id: req.params.id,
         },
       })
-      for (let i = 0; i < fileName.length; i++) {
-        fs.unlinkSync(pathProp + fileName[i].image_url)
-      }
+      // for (let i = 0; i < fileName.length; i++) {
+      //   fs.unlinkSync(pathProp + fileName[i].image_url)
+      // }
 
       return res.status(200).json({
         message: "Property deleted",

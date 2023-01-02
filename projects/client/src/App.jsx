@@ -9,12 +9,12 @@ import { axiosInstance } from "./api/index"
 import { login } from "./redux/features/authSlice"
 import ListingDetails from "./pages/listing/ListingDetails"
 import Navbar from "./components/navbar/Navbar"
-import MyProfile from "./components/my-profile/MyProfile"
 
 import OrderList from "./components/order/OrderList"
 import Listing from "./pages/listing/Listing"
 import NotFoundPage from "./components/404"
 import EditProfile from "./components/edit-profile/EditProfile"
+import MyProfile from "./components/my-profile/MyProfile"
 
 import Home from "./components/home/Home"
 import AddRoom from "./components/room/AddRoom"
@@ -44,6 +44,19 @@ function App() {
   // console.log(authSelector, "test")
   const [message, setMessage] = useState("")
   const location = useLocation()
+
+  console.log(location, "test2")
+
+  // const renderTenaantRoutes = () => {
+  //   if (authSelector.role === "tenant") {
+  //     return (
+  //       <>
+  //         <Route path="/tenant" element={<Tenant />} />
+  //       </>
+  //     )
+  //   }
+  //   return null
+  // }
 
   const [authCheck, setAuthCheck] = useState(false)
   const dispatch = useDispatch()
@@ -91,6 +104,7 @@ function App() {
         <Route path="/inputroom" element={<AddRoom />} />
         <Route path="/orderlist" element={<OrderList />} />
         <Route path="/login" element={<SignIn />} />
+        <Route path="login/tenant" element={<SignInTenant />} />
         <Route path="/register" element={<SignUpForm />} />
         <Route
           path="/myprofile"
@@ -115,9 +129,7 @@ function App() {
         />
         <Route path="/payment-proof/:id" element={<PaymentProof />} />
         <Route path="/payment-approval/:id" element={<PaymentApproval />} />
-
         <Route path="/dummy-transaction/" element={<DummyTransaction />} />
-
         <Route path="/listing/details/:id" element={<ListingDetails />} />
         <Route
           path="/user/:id"
