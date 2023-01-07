@@ -38,7 +38,6 @@ import UserOrderList from "./pages/UserOrderList"
 
 function App() {
   const authSelector = useSelector((state) => state.auth)
-
   const [message, setMessage] = useState("")
   const location = useLocation()
 
