@@ -15,6 +15,8 @@ import {
   useDisclosure,
   Textarea,
   HStack,
+  InputGroup,
+  InputRightAddon,
 } from "@chakra-ui/react"
 import { useFormik } from "formik"
 import { BsUpload } from "react-icons/bs"
@@ -29,6 +31,8 @@ import {
   useSearchParams,
 } from "react-router-dom"
 import { MdOutlineKeyboardBackspace } from "react-icons/md"
+import { Upload, message } from "antd"
+import { PlusOutlined } from "@ant-design/icons"
 
 const AddRoom = () => {
   const toast = useToast()
@@ -42,6 +46,22 @@ const AddRoom = () => {
   // const [queryParameters] = useSearchParams()
   const search = useLocation().search
   const name = new URLSearchParams(search).get("id")
+
+  const beforeUpload = (file) => {
+    const isJpgOrPng =
+      file.type === "image/jpeg" ||
+      (file.type === "image/png") |
+        (file.type === "image/jpeg") |
+        (file.type === "image/gif")
+    if (!isJpgOrPng) {
+      message.error("You can only upload JPG/PNG file!")
+    }
+    const isLt2M = file.size / 1024 / 1024 < 3
+    if (!isLt2M) {
+      message.error("Image must smaller than 3MB!")
+    }
+    return isJpgOrPng && isLt2M
+  }
 
   //==========================GET ROOM
   // const getPropertyId = async () => {
@@ -116,20 +136,31 @@ const AddRoom = () => {
     const imageArray = selectedFilesArray.map((file) => {
       return URL.createObjectURL(file)
     })
+
     setSelectedImages((previousImage) => previousImage.concat(imageArray))
   }
+
   function deleteHandler(image) {
     setSelectedImages(selectedImages.filter((e) => e != image))
     URL.revokeObjectURL(image)
   }
 
+  useEffect(() => {
+    // beforeUpload()
+  })
   return (
     <>
-      <Flex zIndex="0" minH="100vh" align="center" justify="center" mt={"50px"}>
+      <Flex
+        zIndex="0"
+        minH="100vh"
+        align="center"
+        justify="center"
+        mt={{ base: "50px", md: "100px" }}
+      >
         <Stack
           spacing="4"
-          w="350px"
-          maxW="md"
+          w={{ base: "350px", md: "700px" }}
+          // maxW="md"
           rounded="xl"
           boxShadow="lg"
           bg="white"
@@ -144,6 +175,7 @@ const AddRoom = () => {
             bgColor="red"
             borderRadius={"5px"}
             maxWidth={"-webkit-max-content"}
+            cursor="pointer"
           >
             <MdOutlineKeyboardBackspace color="white" />
             <Text>Back</Text>
@@ -176,31 +208,34 @@ const AddRoom = () => {
             </FormControl>
             <FormControl isRequired>
               <FormLabel>Capacity</FormLabel>
-              <Textarea
-                placeholder="type here"
-                type="number"
-                onChange={formChangeHandler}
-                name="capacity"
-                value={formik.values.capacity}
-              />
+              <InputGroup>
+                <Input
+                  placeholder="type here"
+                  type="number"
+                  onChange={formChangeHandler}
+                  name="capacity"
+                  value={formik.values.capacity}
+                />
+                <InputRightAddon children="person" />
+              </InputGroup>
             </FormControl>
             <FormControl isRequired>
               <FormLabel>Price</FormLabel>
-              <Input
-                placeholder="type here"
-                type="number"
-                name="price"
-                onChange={formChangeHandler}
-                value={formik.values.price}
-              />
+              <InputGroup>
+                <Input
+                  placeholder="enter amount"
+                  type="number"
+                  name="price"
+                  onChange={formChangeHandler}
+                  value={formik.values.price}
+                />
+                <InputRightAddon children="¥/ night" />
+              </InputGroup>
             </FormControl>
             <Stack spacing="6">
               <Box>
                 <FormControl isRequired>
-                  {/* <FormLabel>Upload Picture</FormLabel> */}
                   <Input
-                    // placeholder="type here"
-
                     multiple={true}
                     type="file"
                     accept="image/*"
@@ -213,6 +248,25 @@ const AddRoom = () => {
                     display="none"
                     ref={inputFileRef}
                   />
+                  {/* <Upload
+                  multiple={true}
+                    maxCount={1}
+                    action="/upload.do"
+                    listType="picture-card"
+                    beforeUpload={beforeUpload}
+                    showUploadList={false}
+                  > */}
+                  {/* <div>
+                      <PlusOutlined />
+                      <div
+                        style={{
+                          marginTop: 20,
+                        }}
+                      >
+                        Upload
+                      </div>
+                    </div>
+                  </Upload> */}
                 </FormControl>
                 <Box mt={"30px"}>
                   <Text>Upload your image</Text>
@@ -228,11 +282,30 @@ const AddRoom = () => {
                         backgroundColor={"yellow.400"}
                         width="30px"
                         borderRadius="5px"
+                        cursor={"pointer"}
                       >
                         <BsUpload color="white " />
                       </Center>
                       <Text>Choose Images</Text>
                     </Flex>
+                    {/* <Upload
+                      maxCount={1}
+                      action="/upload.do"
+                      listType="picture-card"
+                      beforeUpload={beforeUpload}
+                      showUploadList={false}
+                    >
+                      <div>
+                        <PlusOutlined />
+                        <div
+                          style={{
+                            marginTop: 20,
+                          }}
+                        >
+                          Upload
+                        </div>
+                      </div>
+                    </Upload> */}
                   </label>
                 </Box>
               </Box>
@@ -262,9 +335,11 @@ const AddRoom = () => {
                       mb="24px"
                       boxShadow={"rgba(0, 0, 0, 0.24) 0px 3px 20px"}
                       borderRadius="8px"
+                      position="relative"
                     >
                       <CloseButton
-                        ml={{ base: "110px", md: "38vh" }}
+                        // ml={{ base: "110px", md: "38vh" }}
+                        right={{ md: "3", base: "2" }}
                         mt="5px"
                         position="absolute"
                         border="none"
@@ -291,6 +366,7 @@ const AddRoom = () => {
               color="white"
               _hover={{ bg: "blue.500" }}
               type="submit"
+              cursor={"pointer"}
             >
               Submit
             </Button>

@@ -2,6 +2,7 @@ import { ArrowBackIcon } from "@chakra-ui/icons"
 import {
   Box,
   Button,
+  ButtonGroup,
   Center,
   Container,
   Flex,
@@ -31,14 +32,10 @@ const EditProperty = () => {
     try {
       const responseProp = await axiosInstance.get(`property/${params.id}`)
       setListing(responseProp.data.data)
-      // setPropertyImage(responseProp.data.data.PropertyImages)
-      // console.log(responseProp.data.data)
     } catch (error) {
       console.log(error)
     }
   }
-
-  // console.log(propertyImage)
 
   // =============================== Edit Prop =========================================
 
@@ -76,8 +73,6 @@ const EditProperty = () => {
     },
   })
 
-  // console.log(prop.data)
-
   const formChangeHandler = ({ target }) => {
     const { name, value } = target
     formik.setFieldValue(name, value)
@@ -87,33 +82,25 @@ const EditProperty = () => {
     getProperty()
   }, [])
   return (
-    <Center mt={{ md: "50vh", base: "65vh" }}>
+    <Center mt={{ md: "45vh", base: "58vh" }} mb={{ md: "40vh", base: "43vh" }}>
       <Box
-        // mt="100px"
-        // ml="5px"
-        // right="50%"
-        // left={{ base: "0", sm: "10%" }}
-        maxW="71vh"
-        minW="20vh"
-        w={{ base: "55vh", sm: "71vh" }}
+        minW={{ md: "90vh", base: "fit-content" }}
+        w="fit-content"
         position="absolute"
         ml="5px"
       >
-        <Text as="b" fontSize="xx-large" mb="50px">
+        <Text
+          as="b"
+          fontSize="xx-large"
+          mb="50px"
+          // textAlign={{ base: "center" }}
+        >
           {" "}
           Edit Property Form
         </Text>
-        <Box
-          // borderRadius="8px"
-          alignContent="center"
-          justifyContent="center"
-          // border="1px solid black"
-          mt="20px"
-          mr="-10px"
-          height={{ base: "80vh", sm: "58vh" }}
-        >
+        <Box mt="20px" height={{ base: "80vh", sm: "58vh" }} w="100%">
           <form onSubmit={formik.handleSubmit}>
-            <Box mb="20px" mt="22px" maxW="70vh" minW="20vh" mr="20px">
+            <Box mb="20px" mt="22px" mr="20px">
               <Text as="b" fontSize="16px">
                 Property Name
               </Text>
@@ -124,9 +111,10 @@ const EditProperty = () => {
                 required
                 onChange={formChangeHandler}
                 name="name"
+                color="black"
               />
             </Box>
-            <Box mb="20px" maxW="70vh" minW="20vh" mr="20px">
+            <Box mb="20px" mr="20px">
               <Text as="b" fontSize="16px">
                 Address
               </Text>
@@ -137,9 +125,10 @@ const EditProperty = () => {
                 defaultValue={listing.address}
                 onChange={formChangeHandler}
                 name="address"
+                color="black"
               />
             </Box>
-            <Box mb="20px" maxW="70vh" minW="20vh" mr="20px">
+            <Box mb="20px" mr="20px">
               <Text as="b" fontSize="16px">
                 Rules
               </Text>
@@ -153,7 +142,7 @@ const EditProperty = () => {
                 name="rules"
               />
             </Box>
-            <Box mb="20px" maxW="70vh" minW="20vh" mr="20px">
+            <Box mb="20px" mr="20px">
               <Text as="b" fontSize="16px">
                 Description
               </Text>
@@ -167,37 +156,36 @@ const EditProperty = () => {
                 name="description"
               />
             </Box>
-            <Center mr="20px" display="block">
-              <Button
-                type="submit"
-                width="fit-content"
-                minWidth={{ md: "70vh", base: "50vh" }}
-                color="white"
-                backgroundColor="blue.500"
-                _hover={{ backgroundColor: "blue.400" }}
-                mb="10px"
-              >
-                Submit
-              </Button>
-              <Button
-                width="fit-content"
-                minWidth={{ md: "70vh", base: "50vh" }}
-                color="white"
-                backgroundColor="red.500"
-                _hover={{ backgroundColor: "red.400" }}
-                onClick={() => navigate(-1)}
-              >
-                Cancel
-              </Button>
+            <Center mr="20px" display="flex">
+              <ButtonGroup w="100%">
+                <Button
+                  type="submit"
+                  // width="fit-content"
+                  w={{ base: "100%", md: "50%" }}
+                  // minWidth={{ md: "70vh", base: "50vh" }}
+                  color="white"
+                  backgroundColor="linkedin.500"
+                  _hover={{ backgroundColor: "linkedin.400" }}
+                  mb="10px"
+                  // left="17%"
+                >
+                  Submit
+                </Button>
+                <Button
+                  // width="fit-content"
+                  // minWidth={{ md: "70vh", base: "50vh" }}
+                  w={{ base: "100%", md: "50%" }}
+                  // left="17%"
+                  // right="50"
+                  color="white"
+                  backgroundColor="red.500"
+                  _hover={{ backgroundColor: "red.400" }}
+                  onClick={() => navigate(-1)}
+                >
+                  Cancel
+                </Button>
+              </ButtonGroup>
             </Center>
-
-            <Grid
-              templateColumns="repeat(2,1fr)"
-              display="flex"
-              flexWrap="wrap"
-              gap="10px"
-              spacing="10"
-            ></Grid>
           </form>
         </Box>
       </Box>

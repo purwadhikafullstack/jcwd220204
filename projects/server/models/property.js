@@ -1,5 +1,5 @@
-"use strict"
-const { Model } = require("sequelize")
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Property extends Model {
     /**
@@ -9,12 +9,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Property.belongsTo(models.Categories)
-      Property.belongsTo(models.Cities)
-      Property.belongsTo(models.User)
-      Property.hasMany(models.PropertyItem, { onDelete: "CASCADE" })
-      Property.hasMany(models.PropertyImage, { onDelete: "CASCADE" })
-      Property.hasMany(models.Transaction, { onDelete: "CASCADE" })
+      Property.belongsTo(models.Categories);
+      Property.belongsTo(models.Cities);
+      Property.belongsTo(models.User);
+      Property.hasMany(models.PropertyItem, { onDelete: "CASCADE" });
+      Property.hasMany(models.PropertyImage, { onDelete: "CASCADE" });
+      Property.hasMany(models.Transaction, { onDelete: "CASCADE" });
+      Property.hasMany(models.Review);
     }
   }
   Property.init(
@@ -30,6 +31,6 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: "Property",
     }
-  )
-  return Property
-}
+  );
+  return Property;
+};

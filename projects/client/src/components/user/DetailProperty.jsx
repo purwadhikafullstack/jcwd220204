@@ -1,7 +1,10 @@
 import {
+  Alert,
+  AlertIcon,
+  Avatar as Avatar2,
   Badge,
   Box,
-  Button,
+  Button as Button2,
   Center,
   Container,
   Divider,
@@ -28,6 +31,7 @@ import {
   Text,
   useDisclosure,
   VStack,
+  WrapItem,
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
@@ -36,7 +40,8 @@ import { axiosInstance } from "../../api"
 import { async } from "@firebase/util"
 import { Carousel } from "antd"
 import { GrFormNext } from "react-icons/gr"
-import { Calendar } from "antd"
+import { Calendar, Avatar, List, message, Button, Result } from "antd"
+import moment from "moment"
 
 const DetailProperty = () => {
   const reserveModal = useDisclosure()
@@ -68,6 +73,8 @@ const DetailProperty = () => {
     }
   }
 
+  //=============================
+
   const getDateRoom = async () => {
     try {
       const responseData = await axiosInstance.get(`/calendar/${params.id}`)
@@ -76,48 +83,48 @@ const DetailProperty = () => {
       console.log(err)
     }
   }
-  console.log(getDateRooms, "coba2")
+  const newFormatted = getDateRooms?.map((dateRoom) => {
+    const date = new Date(dateRoom.startDate)
 
-  // const newFormatted = getDateRooms.map((dateRoom) => {
-  //   const date = new Date(dateRoom.startDate)
-  //   const year = date.getFullYear()
-  //   const month = date.getMonth() + 1
-  //   const day = date.getDate()
-  //   const formattedNewDate = `${year}${month.toString().padStart(2, "0")}${day
-  //     .toString()
-  //     .padStart(2, "0")}`
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    const day = date.getDate()
+    const formattedNewDate = `${year}${month.toString().padStart(2, "0")}${day
+      .toString()
+      .padStart(2, "0")}`
 
-  //   dateRoom.formattedNewDate = formattedNewDate
-
-  //   return dateRoom
-  // })
-  // console.log(newFormatted, "coba")
+    dateRoom.formattedNewDate = formattedNewDate
+    return formattedNewDate
+  })
 
   // const findDate = (value) => {
   //   console.log(value.format("YYYYMMDD"), "format")
   // }
 
-  // const DateCellRender = (date) => {
-  //   const dateStr = date.format("YYYYMMDD")
+  const DateCellRender = (date) => {
+    const dateStr = date.format("YYYYMMDD")
 
-  //   let result = ""
-  //   for (let data of newFormatted) {
-  //     if (data.formattedNewDate === dateStr) {
-  //       result += `${data.PropertyItem.item_name}\n`
-  //     }
-  //   }
-  //   if (result !== "") {
-  //     return (
-  //       <div>
-  //         <Badge
-  //           status="error"
-  //           text={`${result}`}
-  //           style={{ fontSize: "0.5rem" }}
-  //         />
-  //       </div>
-  //     )
-  //   }
-  // }
+    let result = ""
+
+    for (let data of newFormatted) {
+      if (data.newFormatted === dateStr) {
+        result += `${data.PropertyItem.item_name}\n`
+      }
+    }
+    if (result !== "") {
+      return (
+        <div>
+          <Badge
+            status="error"
+            text={`${result}`}
+            style={{ fontSize: "0.5rem" }}
+          />
+        </div>
+      )
+    }
+  }
+  //=============================
+  // const getUserReview = property?.Reviews
 
   const contentStyle = {
     margin: 0,
@@ -129,6 +136,8 @@ const DetailProperty = () => {
     padding: 0,
   }
 
+  const findId = room.map((val) => <option key={val.id}>{val.name}</option>)
+
   useEffect(() => {
     fetchRoom()
     fetchProperty()
@@ -136,11 +145,15 @@ const DetailProperty = () => {
   }, [])
   return (
     <Center>
-      <Container width={"-moz-max-content"} height="auto" mt={"75px"}>
+      <Container
+        width={"-moz-max-content"}
+        height="auto"
+        mt={"100px"}
+        maxW={{ base: "100vw", md: "60vw" }}
+      >
         <Link to={`/`}>
           <GrLinkPrevious size={"25px"} />
         </Link>
-
         <Carousel autoplay effect="fade" dotPosition="bottom" easing="linear">
           {images?.map((val) => (
             <Image
@@ -156,13 +169,18 @@ const DetailProperty = () => {
           ))}
         </Carousel>
 
+        <Divider color={"GrayText"} height="10px" />
+
         <br />
-        <Grid
-          templateColumns={"repeat(2, 2fr)"}
-          gap="10"
-          // border={"2px solid red"}
-        >
+        <Grid templateColumns={"repeat(2, 2fr)"} gap="10">
           <GridItem>
+            <HStack paddingBottom={"10px"}>
+              <Avatar2
+                name={property?.User?.username}
+                src={`http://localhost:8000/public/${property?.User?.profile_picture}`}
+              />
+              <Text>Hosted by {property.User?.username}</Text>
+            </HStack>
             <Text>{property.name}</Text>
             <Badge colorScheme={"linkedin"}>
               {property?.Category?.category_name}
@@ -174,24 +192,20 @@ const DetailProperty = () => {
             <Text fontFamily={"sans-serif"} fontSize={"13.5px"}>
               {property?.description}
             </Text>
-            {/* <Box color={"blue"} textAlign="center">
-                <Calendar
-                  // dateCellRender={DateCellRender}
-                  // onChange={findDate}
-                  style={{ textTransform: "uppercase", fontSize: "0.7rem" }}
-                />
-              </Box> */}
-            <Button
+            <Button2
               colorScheme={"orange"}
               ml="0"
               width={"100%"}
               color="white"
               onClick={reserveModal.onOpen}
+              cursor="pointer"
             >
               Reserve
               <GrFormNext size={"25px"} />
-            </Button>
-            <Box color={"blue"} textAlign="center">
+            </Button2>
+
+            <Box color={"blue"} textAlign="center" mt={"50px"}>
+              <Text>Full booked day information</Text>
               <Calendar
                 // dateCellRender={DateCellRender}
                 // onChange={findDate}
@@ -206,13 +220,13 @@ const DetailProperty = () => {
               <ModalOverlay />
               <ModalContent>
                 <ModalHeader>Reservation Form</ModalHeader>
-                <ModalCloseButton color={"red"} />
+                <ModalCloseButton color={"red"} cursor="pointer" />
                 <ModalBody>
                   <FormControl>
                     <FormLabel>Select Room</FormLabel>
                     <Select>
                       {room.map((val) => (
-                        <option>{val.item_name}</option>
+                        <option key={val.id}>{val.item_name}</option>
                       ))}
                     </Select>
                     <FormLabel mt={"5px"}>Amount of Guest</FormLabel>
@@ -223,6 +237,14 @@ const DetailProperty = () => {
                         borderColor={"black"}
                       />
                       <InputRightAddon children="people" />
+                    </InputGroup>
+                    <FormLabel mt={"5px"}>CheckIn Date</FormLabel>
+                    <InputGroup>
+                      <Input type={"date"} />
+                    </InputGroup>
+                    <FormLabel mt={"5px"}>CheckOut Date</FormLabel>
+                    <InputGroup>
+                      <Input type={"date"} />
                     </InputGroup>
                     <FormLabel mt={"5px"}>Name</FormLabel>
                     <InputGroup>
@@ -235,72 +257,133 @@ const DetailProperty = () => {
                   </FormControl>
                 </ModalBody>
                 <ModalFooter>
-                  <Button
+                  <Button2
                     colorScheme="red"
                     mr={3}
                     onClick={reserveModal.onClose}
                     size="sm"
+                    cursor={"pointer"}
                   >
                     Close
-                  </Button>
-                  <Button variant="ghost" color={"white"} size="sm">
+                  </Button2>
+                  <Button2
+                    // variant="ghost"
+                    color={"white"}
+                    colorScheme="whatsapp"
+                    size="sm"
+                    cursor={"pointer"}
+                  >
                     Checkout
-                  </Button>
+                  </Button2>
                 </ModalFooter>
               </ModalContent>
             </Modal>
           </GridItem>
           <GridItem>
-            <Text>Available room:</Text>
-            {room.map((val) => (
-              <Box
-                border={"2px solid"}
-                w="200px"
-                rounded={"md"}
-                // mb={"10px"}
-                borderColor="teal.300"
-                // height={"200px"}
-                backgroundColor="linkedin.400"
-                color={"white"}
-                fontWeight="extrabold"
-              >
-                <Carousel
-                  autoplay
-                  effect="fade"
-                  dotPosition="left"
-                  dots={false}
-                  easing="linear"
-                  // style={contentStyle}
+            <Text>Available rooms:</Text>
+            {room.length === 0 ? (
+              <Alert status="error">
+                <AlertIcon />
+                Sorry, no room available now
+              </Alert>
+            ) : (
+              room.map((val) => (
+                <Box
+                  border={"2px solid"}
+                  w={{ base: "200px", md: "300px" }}
+                  rounded={"md"}
+                  mb={"10px"}
+                  borderColor="teal.300"
+                  backgroundColor="linkedin.400"
+                  color={"white"}
+                  fontWeight="extrabold"
                 >
-                  {val.Images.map((value) => (
-                    <Image
-                      src={`http://localhost:8000/public/${value.picture_url}`}
-                      rounded={"md"}
-                      fit={"cover"}
-                      align={"center"}
-                      maxW={"100%"}
-                    />
-                  ))}
-                </Carousel>
+                  <Box
+                    backgroundColor={"white"}
+                    // border="2px solid red"
+                    maxHeight={{ base: "200px", md: "300px" }}
+                  >
+                    <Carousel
+                      autoplay
+                      effect="fade"
+                      dotPosition="left"
+                      dots={false}
+                      easing="linear"
+                      // style={contentStyle}
+                    >
+                      {val.Images.map((value) => (
+                        <Image
+                          src={`http://localhost:8000/public/${value.picture_url}`}
+                          rounded={"md"}
+                          fit={"cover"}
+                          align={"center"}
+                          maxW={"100%"}
+                        />
+                      ))}
+                    </Carousel>
+                  </Box>
 
-                <Text fontFamily={"sans-serif"} fontSize="13.5px">
-                  Room: {val.item_name} type
-                </Text>
-                <Text color={"white"} fontSize={"x-small"}>
-                  {new Intl.NumberFormat("ja-JP", {
-                    style: "currency",
-                    currency: "JPY",
-                  }).format(val.price)}
-                  / room / night
-                </Text>
-                <Text color={"white"} fontSize={"x-small"}>
-                  Max. capacity: {val.capacity} People
-                </Text>
-                <Text color={"white"} fontSize={"x-small"}>
-                  {val.description}
-                </Text>
-              </Box>
-            ))}
+                  <Text
+                    fontFamily={"sans-serif"}
+                    fontSize={{ base: "13.5px", md: "20px" }}
+                  >
+                    Room: {val.item_name} type
+                  </Text>
+                  <Text
+                    color={"white"}
+                    fontSize={{ base: "x-small", md: "md" }}
+                  >
+                    {new Intl.NumberFormat("ja-JP", {
+                      style: "currency",
+                      currency: "JPY",
+                    }).format(val.price)}
+                    / room / night
+                  </Text>
+                  <Text
+                    color={"white"}
+                    fontSize={{ base: "x-small", md: "md" }}
+                  >
+                    Max. capacity: {val.capacity} People
+                  </Text>
+                  <Text
+                    color={"white"}
+                    ffontSize={{ base: "x-small", md: "md" }}
+                  >
+                    {val.description}
+                  </Text>
+                </Box>
+              ))
+            )}
+
+            <Text mt={"20px"}>Reviews:</Text>
+            <VStack
+              divider={<StackDivider borderColor="gray.200" />}
+              spacing={4}
+              align="stretch"
+              border="1px solid"
+              borderColor={"gray.300"}
+              borderRadius={"5px"}
+            >
+              {property?.Reviews?.map((val) => (
+                <>
+                  <HStack>
+                    <Avatar2
+                      size={"md"}
+                      src={`http://localhost:8000/public/${val.User.profile_picture}`}
+                    />
+                    <VStack>
+                      <Text fontSize={"15px"}>{val.User.username}</Text>
+                      <Text fontSize="13px" color={"gray.400"}>
+                        {moment(val.createdAt).utc().format("LL")}
+                      </Text>
+                    </VStack>
+                  </HStack>
+                  <Text mt={"5px"} fontSize="15px" fontStyle={"italic"}>
+                    {val.review}
+                  </Text>
+                </>
+              ))}
+            </VStack>
           </GridItem>
         </Grid>
       </Container>

@@ -1,22 +1,10 @@
-:root {
-  --PrimaryColor: hsl(46, 100%, 56%);
-  --HoverColor: hsl(46, 69%, 44%);
-  --WhiteColor: hsl(0, 0%, 100%);
-  --BlackColor: hsl(0, 0%, 5%);
-  //   --TextColor: hsl(273, 100%, 65%);
-  --TextColor: hsl(273, 100%, 0%);
-  --WhiteColorDeam: hsl(0, 0%, 90%);
-  --GreyBg: hsl(0, 0%, 95%);
-  --GreyText: rgb(190, 190, 190);
-  --InputColor: hsl(330, 12%, 97%);
-  //   --Boxshadow: box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.334);
-}
-
 .popular {
-  padding-top: 12rem;
+  // margin-bottom: 50px;
+  // width: 30vw;
+
   .secContainer {
     .secHeader {
-      flex-direction: column;
+      flex-direction: row;
       align-items: flex-start;
       gap: 1rem;
 
@@ -56,13 +44,15 @@
     }
     .mainContent {
       padding: 2rem 0;
+      margin-top: -100px;
       gap: 1rem;
-      margin-bottom: -325px;
+      // margin-bottom: -100px;
+      max-width: 500;
 
       .singleDestination {
         overflow: hidden;
         border-radius: 1rem;
-        box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.334);
+        box-shadow: 0 5px 8px 5px rgba(178, 178, 178, 0.334);
       }
       .destImage {
         height: 200px;
@@ -75,20 +65,21 @@
           object-fit: cover;
         }
         .overlayInfo {
-          position: sticky;
-          display: table-caption;
-          align-items: center;
-          justify-content: center;
-          padding: 0;
-          //   padding: 1rem 1.5rem;
-          background: linear-gradient(
-            rgba(0, 0, 0, 0.846),
-            rgba(0, 0, 0, 0.759)
-          );
+          // position: sticky;
+          // display: table-caption;
+          // align-items: flex-start;
+          // justify-content: center;
+          // padding: 1rem 1.5rem;
+          // font-size: 15px;
+          // text-align: justify;
+          // // flex-direction: column;
+          // background: linear-gradient(
+          //   rgba(0, 0, 0, 0.846),
+          //   rgba(0, 0, 0, 0.759)
+          // );
           bottom: 0;
-          width: 150px;
-          height: inherit;
-          //   height: 0;
+          width: 15vw;
+          height: 300px;
           overflow: hidden;
           h3 {
             color: var(--WhiteColor);
@@ -110,11 +101,11 @@
             color: var(--PrimaryColor);
             border: 1px transparent;
             transition: 0.3s ease;
-            &:hover {
-              background: var(--BlackColor);
-              border: 1px solid var(--PrimaryColor);
-              color: var(--PrimaryColor);
-            }
+            // &:hover {
+            //   background: var(--BlackColor);
+            //   border: 1px solid var(--PrimaryColor);
+            //   color: var(--PrimaryColor);
+            // }
           }
         }
       }
@@ -155,17 +146,37 @@
           }
         }
       }
-      // &:hover {
-      //   overflow: visible;
-      //   padding: 1rem 1.5rem;
-      //   height: 100%;
-      // }
     }
   }
 }
 
-@media screen and (min-width: 480px) {
+@media screen and (min-width: 769px) {
   .popular {
-    // padding-top: 10rem;
+    width: 30vw;
+
+    .secContainer {
+      .mainContent {
+        // display: grid;
+        .singleDestination {
+          // display: grid;
+
+          // grid-template-columns: repeat(2, 1fr);
+          .destImage {
+            height: 400px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            // border: 2px solid red;
+            background-size: cover;
+
+            img {
+              height: 100%;
+              width: 100%;
+              object-fit: cover;
+            }
+          }
+        }
+      }
+    }
   }
 }

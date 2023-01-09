@@ -1,10 +1,10 @@
-const { Op } = require("sequelize")
-const db = require("../models")
-const Properties = db.Property
-const fs = require("fs")
+const { Op } = require("sequelize");
+const db = require("../models");
+const Properties = db.Property;
+const fs = require("fs");
 
-const Room = db.PropertyItem
-const Cities = db.Cities
+const Room = db.PropertyItem;
+const Cities = db.Cities;
 
 module.exports = {
   getAllProperties: async (req, res) => {
@@ -14,7 +14,7 @@ module.exports = {
         _page = 1,
         _sortBy = "id",
         _sortDir = "ASC",
-      } = req.query
+      } = req.query;
       const findAllProperties = await Properties.findAndCountAll({
         include: [
           {
@@ -28,22 +28,42 @@ module.exports = {
           { model: db.PropertyImage },
           { model: db.User },
           { model: db.Categories },
+          { model: db.PropertyItem },
         ],
         limit: Number(_limit),
         offset: (_page - 1) * _limit,
         order: [[_sortBy, _sortDir]],
         distinct: true,
-      })
+      });
       return res.status(200).json({
         message: "Find all properties",
         data: findAllProperties.rows,
         dataCount: findAllProperties.count,
-      })
+      });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return res.status(500).json({
         message: err.message,
-      })
+      });
+    }
+  },
+
+  //================
+
+  getPropertyByCity: async (req, res) => {
+    try {
+      const properties = await Property.findAll({
+        where: { cities_name: req.query.cities_name },
+      });
+      res.status(200).json({
+        message: "Find property by ID",
+        data: properties,
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({
+        message: err.message,
+      });
     }
   },
   getPropertyById: async (req, res) => {
@@ -55,18 +75,19 @@ module.exports = {
           { model: db.PropertyImage },
           { model: db.Cities },
           { model: db.PropertyItem },
+          { model: db.Review, include: [{ model: db.User }] },
         ],
-      })
+      });
 
       res.status(200).json({
         message: "Find property by ID",
         data: findPropertyById,
-      })
+      });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return res.status(500).json({
         message: err.message,
-      })
+      });
     }
   },
   getCityId: async (req, res) => {
@@ -75,16 +96,16 @@ module.exports = {
         include: {
           model: db.Properties,
         },
-      })
+      });
       res.status(200).json({
         message: "Find city  name",
         data: findCity,
-      })
+      });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return res.status(500).json({
         message: err.message,
-      })
+      });
     }
   },
 
@@ -97,28 +118,28 @@ module.exports = {
             model: db.Images,
           },
         },
-      })
+      });
       res.status(200).json({
         message: "Find Room By Id",
         data: findRoomById,
-      })
+      });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return res.status(500).json({
         message: "Server error",
-      })
+      });
     }
   },
   propertyPost: async (req, res) => {
     try {
-      const foundCityById = await db.Cities.findByPk(req.body.cityId)
+      const foundCityById = await db.Cities.findByPk(req.body.cityId);
       const foundCategoryById = await db.Categories.findByPk(
         req.body.categoryId
-      )
-      const foundUserById = await db.User.findByPk(req.user.id)
+      );
+      const foundUserById = await db.User.findByPk(req.user.id);
 
       if (!foundCityById || !foundCategoryById) {
-        throw new Error("cities and category is not found")
+        throw new Error("cities and category is not found");
       }
 
       const createdNewProperty = await db.Property.create({
@@ -129,39 +150,39 @@ module.exports = {
         CityId: foundCityById.id,
         CategoryId: foundCategoryById.id,
         UserId: foundUserById.id,
-      })
+      });
 
       // ========================BUlkCreate===========================================================
-      const files = req.files
-      let img_path = []
+      const files = req.files;
+      let img_path = [];
 
-      img_path = files.map((item) => item.filename)
+      img_path = files.map((item) => item.filename);
       // console.log(files)
-      const propId = createdNewProperty.id
+      const propId = createdNewProperty.id;
       const newPropImg = img_path.map((item) => {
         return {
           image_url: item,
           PropertyId: propId,
-        }
-      })
-      await db.PropertyImage.bulkCreate(newPropImg)
+        };
+      });
+      await db.PropertyImage.bulkCreate(newPropImg);
 
       const foundPropertyById = await db.Property.findByPk(
         createdNewProperty.id,
         {
           include: [db.PropertyImage, db.User],
         }
-      )
+      );
 
       return res.status(201).json({
         message: "Post new product",
         data: foundPropertyById,
-      })
+      });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return res.status(500).json({
         message: err.message,
-      })
+      });
     }
   },
   propertyUpdate: async (req, res) => {
@@ -170,7 +191,7 @@ module.exports = {
         where: {
           id: req.params.id,
         },
-      })
+      });
 
       await db.Property.update(
         { ...req.body },
@@ -179,17 +200,16 @@ module.exports = {
             id: req.params.id,
           },
         }
-      )
-      // })
+      );
 
       return res.status(200).json({
         message: "Property update",
-      })
+      });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return res.status(500).json({
         message: err.message,
-      })
+      });
     }
   },
   propertyDelete: async (req, res) => {
@@ -208,46 +228,46 @@ module.exports = {
         where: {
           id: req.params.id,
         },
-      })
+      });
       // for (let i = 0; i < fileName.length; i++) {
       //   fs.unlinkSync(pathProp + fileName[i].image_url)
       // }
 
       return res.status(200).json({
         message: "Property deleted",
-      })
+      });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return res.status(500).json({
         message: err.message,
-      })
+      });
     }
   },
   propertyImageDelete: async (req, res) => {
-    const path = "public/propImg/"
+    const path = "public/propImg/";
 
     const fileName = await db.PropertyImage.findOne({
       where: {
         id: req.params.id,
       },
-    })
+    });
 
     try {
       await db.PropertyImage.destroy({
         where: {
           id: req.params.id,
         },
-      })
-      fs.unlinkSync(path + fileName.image_url)
+      });
+      fs.unlinkSync(path + fileName.image_url);
 
       return res.status(200).json({
         message: "Image deleted",
-      })
+      });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return res.status(500).json({
         message: err.message,
-      })
+      });
     }
   },
   propertyImagePost: async (req, res) => {
@@ -256,24 +276,22 @@ module.exports = {
         where: {
           id: req.params.id,
         },
-      })
+      });
 
       const newImgProp = await db.PropertyImage.create({
-        // image_url: `public/propImg/${req.file.filename}`,
         image_url: req.file.filename,
         PropertyId: req.params.id,
-      })
+      });
 
-      console.log(req.file.filename)
       return res.status(201).json({
         message: "Post new Image Property",
         data: newImgProp,
-      })
+      });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       res.status(500).json({
         message: req.message,
-      })
+      });
     }
   },
-}
+};
