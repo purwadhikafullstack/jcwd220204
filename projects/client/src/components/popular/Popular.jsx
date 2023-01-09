@@ -9,13 +9,22 @@ import { Link } from "react-router-dom"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import Slider from "react-slick"
-import { Image } from "@chakra-ui/react"
+import { Image, Text } from "@chakra-ui/react"
 import SimpleImageSlider from "react-simple-image-slider"
+import { Badge } from "antd"
+import { Carousel } from "react-responsive-carousel"
 
-const Popular = ({ id, name, city, properties_image }) => {
+const Popular = ({
+  id,
+  name,
+  city,
+  properties_image,
+  category,
+  property_item,
+}) => {
   const [images, setImages] = useState([])
   const getImages = properties_image.map((val) => val.image_url)
-  console.log(getImages)
+
   const settings = {
     dots: true,
     lazyLoad: true,
@@ -25,40 +34,53 @@ const Popular = ({ id, name, city, properties_image }) => {
     slidesToScroll: 1,
     initialSlide: 2,
   }
+  const price = property_item.map((val) => val.price)
+  const lowestPrice = Math.min(...price)
+
   return (
     <div className="popularMain">
       <section className="popular section container" id="popular">
         <div className="secContainer">
-          <Link to={`/roomdetail/${id}`}>
-            <div
-              style={{
-                marginTop: "5rem",
-              }}
-            >
+          <div
+            style={{
+              marginTop: "5rem",
+            }}
+          >
+            <Badge.Ribbon text={category}>
               <div className="mainContent">
                 <div className="singleDestination">
-                  <div className="destImage">
-                    {properties_image.map((val) => (
-                      <img
-                        src={`http://localhost:8000/public/${val.image_url}`}
-                      />
-                    ))}
+                  <Link to={`/roomdetail/${id}`}>
+                    <div className="destImage">
+                      {properties_image.map((val) => (
+                        <img
+                          src={`http://localhost:8000/public/${val.image_url}`}
+                        />
+                      ))}
 
-                    <div className="overlayInfo">
-                      <h3>{name}</h3>
+                      <div className="overlayInfo">
+                        {/* <BsArrowRightShort className="icon" /> */}
+                      </div>
+                    </div>
+                    <div className="destFooter">
+                      <div className="destText flex">
+                        <h3>{name}</h3>
+                        <h6>{city?.cities_name}</h6>
 
-                      <BsArrowRightShort className="icon" />
+                        <Text color={"black"}>
+                          Start from:{" "}
+                          {new Intl.NumberFormat("ja-JP", {
+                            style: "currency",
+                            currency: "JPY",
+                          }).format(lowestPrice)}{" "}
+                          /room /night
+                        </Text>
+                      </div>
                     </div>
-                  </div>
-                  <div className="destFooter">
-                    <div className="destText flex">
-                      <h6>{city?.cities_name}</h6>
-                    </div>
-                  </div>
+                  </Link>
                 </div>
               </div>
-            </div>
-          </Link>
+            </Badge.Ribbon>
+          </div>
         </div>
       </section>
     </div>

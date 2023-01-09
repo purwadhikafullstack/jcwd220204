@@ -65,7 +65,6 @@ const ListingDetails = () => {
       console.log(err)
     }
   }
-  console.log(images)
 
   //=======================GET ROOM
   const fetchRoom = async () => {
@@ -73,7 +72,6 @@ const ListingDetails = () => {
       const response = await axiosInstance.get(`/room/${params.id}`)
 
       setRoom(response.data.data.PropertyItems)
-      console.log(response, "coba")
     } catch (err) {
       console.log(err)
     }
@@ -118,10 +116,6 @@ const ListingDetails = () => {
 
   //=============FIND DATE IN CALENDAR
 
-  const findDate = (value) => {
-    console.log(value.format("YYYYMMDD"), "format")
-  }
-
   const DateCellRender = (date) => {
     const dateStr = date.format("YYYYMMDD")
 
@@ -156,12 +150,11 @@ const ListingDetails = () => {
           images={val.Images}
           onDelete={() => deleteRoom(val.id)}
           calendars={val.Calendars}
+          fetchListingDetails={fetchRoom}
         />
       )
     })
   }
-
-  console.log(room)
 
   const [index, setIndex] = useState(0)
 
@@ -187,15 +180,11 @@ const ListingDetails = () => {
   }, [])
 
   return (
-    <Container mt={"75px"} maxWidth="4xl">
+    <Container maxWidth="4xl" mt="100px">
       <HStack p="3" pl="1" pr="1" justifyContent={"space-between"}>
         <Link to={`/tenant/${authSelector.id}`}>
           <GrLinkPrevious size={"25px"} />
         </Link>
-        {/* ======================================= */}
-        {/* <Link to={`/property/edit/${params.id}`}>
-          <BiEditAlt size={"25px"} />
-        </Link> */}
         <Menu>
           <MenuButton
             as={IconButton}
@@ -289,7 +278,6 @@ const ListingDetails = () => {
           <Text>This is a day information from your full booked room </Text>
           <Calendar
             dateCellRender={DateCellRender}
-            onChange={findDate}
             style={{ textTransform: "uppercase", fontSize: "0.7rem" }}
           />
         </Box>

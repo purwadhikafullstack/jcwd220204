@@ -26,7 +26,7 @@ const DummyTransaction = () => {
 
       toast({
         status: "success",
-        title: "dummy transaction created",
+        title: "Dummy transaction created",
       })
     } catch (err) {
       console.log(err)
@@ -40,7 +40,7 @@ const DummyTransaction = () => {
   //   console.log(getTransactionId)
 
   return (
-    <Box mt="50vh">
+    <Box mt="30vh" mb="30vh">
       <Center display="block" textAlign="center">
         <Text fontSize="30px" fontWeight="bold" mb="30px">
           Ceritanaya ini dummy checkout, hehe {":))"}
