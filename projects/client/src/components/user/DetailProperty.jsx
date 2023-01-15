@@ -28,13 +28,20 @@ import {
   Select,
   Stack,
   StackDivider,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
   Text,
+  Th,
+  Thead,
+  Tr,
   useDisclosure,
   VStack,
   WrapItem,
 } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, useParams, useNavigate } from "react-router-dom"
 import { GrLinkPrevious, GrAdd } from "react-icons/gr"
 import { axiosInstance } from "../../api"
 import { async } from "@firebase/util"
@@ -44,11 +51,12 @@ import { Calendar, Avatar, List, message, Button, Result } from "antd"
 import moment from "moment"
 
 const DetailProperty = () => {
-  const reserveModal = useDisclosure()
+  // const reserveModal = useDisclosure()
   const [room, setRoom] = useState([])
   const [property, setProperty] = useState([])
   const [images, setImages] = useState([])
   const [getDateRooms, setGetDateRooms] = useState()
+  const navigate = useNavigate()
 
   const params = useParams()
 
@@ -83,8 +91,10 @@ const DetailProperty = () => {
       console.log(err)
     }
   }
+  // console.log(getDateRooms, "coba")
+
   const newFormatted = getDateRooms?.map((dateRoom) => {
-    const date = new Date(dateRoom.startDate)
+    const date = new Date(dateRoom?.startDate)
 
     const year = date.getFullYear()
     const month = date.getMonth() + 1
@@ -94,7 +104,8 @@ const DetailProperty = () => {
       .padStart(2, "0")}`
 
     dateRoom.formattedNewDate = formattedNewDate
-    return formattedNewDate
+    // console.log(formattedNewDate, "coba2")
+    return dateRoom
   })
 
   // const findDate = (value) => {
@@ -147,7 +158,7 @@ const DetailProperty = () => {
     <Center>
       <Container
         width={"-moz-max-content"}
-        height="auto"
+        height="-moz-max-content"
         mt={"100px"}
         maxW={{ base: "100vw", md: "60vw" }}
       >
@@ -192,27 +203,46 @@ const DetailProperty = () => {
             <Text fontFamily={"sans-serif"} fontSize={"13.5px"}>
               {property?.description}
             </Text>
-            <Button2
-              colorScheme={"orange"}
-              ml="0"
-              width={"100%"}
-              color="white"
-              onClick={reserveModal.onOpen}
-              cursor="pointer"
-            >
-              Reserve
-              <GrFormNext size={"25px"} />
-            </Button2>
+            <Link to="/dummy-transaction">
+              <Button2
+                colorScheme={"orange"}
+                ml="0"
+                width={"100%"}
+                color="white"
+                // onClick={reserveModal.onOpen}
+                cursor="pointer"
+              >
+                Reserve
+                <GrFormNext size={"25px"} />
+              </Button2>
+            </Link>
 
-            <Box color={"blue"} textAlign="center" mt={"50px"}>
-              <Text>Full booked day information</Text>
-              <Calendar
-                // dateCellRender={DateCellRender}
-                // onChange={findDate}
-                style={{ textTransform: "uppercase", fontSize: "0.7rem" }}
-              />
-            </Box>
-            <Modal
+            {room.length !== 0 ? (
+              <>
+                <Box color={"blue"} textAlign="center" mt={"50px"}>
+                  <Text>Full booked day information</Text>
+                </Box>
+
+                {getDateRooms?.length !== 0 ? (
+                  getDateRooms?.map((val) => (
+                    <>
+                      <Text>Room type: {val.PropertyItem?.item_name}</Text>
+                      <Text fontSize={{ base: "13px" }}>
+                        Date: {moment(val.startDate).format("LL")}
+                      </Text>
+                      <Divider color={"gray.400"} />
+                    </>
+                  ))
+                ) : (
+                  <Alert status="success">
+                    <AlertIcon />
+                    All room type is available now
+                  </Alert>
+                )}
+              </>
+            ) : null}
+
+            {/* <Modal
               isOpen={reserveModal.isOpen}
               onClose={reserveModal.onClose}
               size="sm"
@@ -277,7 +307,7 @@ const DetailProperty = () => {
                   </Button2>
                 </ModalFooter>
               </ModalContent>
-            </Modal>
+            </Modal> */}
           </GridItem>
           <GridItem>
             <Text>Available rooms:</Text>
@@ -316,7 +346,8 @@ const DetailProperty = () => {
                           src={`http://localhost:8000/public/${value.picture_url}`}
                           rounded={"md"}
                           fit={"cover"}
-                          align={"center"}
+                          alignItems={"center"}
+                          justifyContent="center"
                           maxW={"100%"}
                         />
                       ))}
@@ -347,7 +378,7 @@ const DetailProperty = () => {
                   </Text>
                   <Text
                     color={"white"}
-                    ffontSize={{ base: "x-small", md: "md" }}
+                    fontSize={{ base: "x-small", md: "md" }}
                   >
                     {val.description}
                   </Text>
