@@ -1,27 +1,27 @@
 // https://nginep-f1ba2-default-rtdb.firebaseio.com/
 
-require("dotenv/config");
-const express = require("express");
-const cors = require("cors");
-const { join } = require("path");
-const db = require("../models");
-const authRoute = require("../routes/authRoute");
-const propertiesRoute = require("../routes/propertiesRoute");
-const roomRoute = require("../routes/roomRoute");
-const tenantRoute = require("../routes/tenantRoute");
-const citiesRoute = require("../routes/citiesRoute");
-const calendarRoute = require("../routes/calendarRoute");
-const transactionRoute = require("../routes/transactionRoute");
-const reviewRoute = require("../routes/reviewRoute");
+require("dotenv/config")
+const express = require("express")
+const cors = require("cors")
+const { join } = require("path")
+const db = require("../models")
+const authRoute = require("../routes/authRoute")
+const propertiesRoute = require("../routes/propertiesRoute")
+const roomRoute = require("../routes/roomRoute")
+const tenantRoute = require("../routes/tenantRoute")
+const citiesRoute = require("../routes/citiesRoute")
+const calendarRoute = require("../routes/calendarRoute")
+const transactionRoute = require("../routes/transactionRoute")
+const reviewRoute = require("../routes/reviewRoute")
 
-const fs = require("fs");
-const categoryRoute = require("../routes/categoriesRoute");
-const schedule = require("../schedule/paymentCheck");
+const fs = require("fs")
+const categoryRoute = require("../routes/categoriesRoute")
+const schedule = require("../schedule/paymentCheck")
 
-const { verifyToken } = require("../middlewares/authMiddleware");
+const { verifyToken } = require("../middlewares/authMiddleware")
 
-const PORT = process.env.PORT || 8000;
-const app = express();
+const PORT = process.env.PORT
+const app = express()
 app.use(
   cors({
     // origin: [
@@ -29,9 +29,9 @@ app.use(
     //     process.env.WHITELISTED_DOMAIN.split(","),
     // ],
   })
-);
+)
 
-app.use(express.json());
+app.use(express.json())
 
 //#region API ROUTES
 
@@ -39,27 +39,27 @@ app.use(express.json());
 // NOTE : Add your routes here
 
 app.get("/api", (req, res) => {
-  res.send(`Hello, this is my API`);
-});
+  res.send(`Hello, this is my API`)
+})
 
 app.get("/api/greetings", (req, res, next) => {
   res.status(200).json({
     message: "Hello, Student !",
-  });
-});
+  })
+})
 
-app.use("/auth", authRoute);
-app.use("/public", express.static("public"));
+app.use("/auth", authRoute)
+app.use("/public", express.static("public"))
 
-app.use("/calendar", calendarRoute);
-app.use("/transaction", transactionRoute);
-app.use("/review", reviewRoute);
+app.use("/calendar", calendarRoute)
+app.use("/transaction", transactionRoute)
+app.use("/review", reviewRoute)
 
-app.use("/property", propertiesRoute);
-app.use("/room", roomRoute);
-app.use("/tenant", tenantRoute);
-app.use("/cities", citiesRoute);
-app.use("/category", categoryRoute);
+app.use("/property", propertiesRoute)
+app.use("/room", roomRoute)
+app.use("/tenant", tenantRoute)
+app.use("/cities", citiesRoute)
+app.use("/category", categoryRoute)
 
 // const register = require("./routes/register")
 
@@ -70,44 +70,44 @@ app.use("/category", categoryRoute);
 // not found
 app.use((req, res, next) => {
   if (req.path.includes("/api/")) {
-    res.status(404).send("Not found !");
+    res.status(404).send("Not found !")
   } else {
-    next();
+    next()
   }
-});
+})
 
 // error
 app.use((err, req, res, next) => {
   if (req.path.includes("/api/")) {
-    console.error("Error : ", err.stack);
-    res.status(500).send("Error !");
+    console.error("Error : ", err.stack)
+    res.status(500).send("Error !")
   } else {
-    next();
+    next()
   }
-});
+})
 
 //#endregion
 
 //#region CLIENT
-const clientPath = "../../client/build";
-app.use(express.static(join(__dirname, clientPath)));
+const clientPath = "../../client/build"
+app.use(express.static(join(__dirname, clientPath)))
 
 // Serve the HTML page
 app.get("*", (req, res) => {
-  res.sendFile(join(__dirname, clientPath, "index.html"));
-});
+  res.sendFile(join(__dirname, clientPath, "index.html"))
+})
 
 //#endregion
 
 app.listen(PORT, (err) => {
   if (err) {
-    console.log(`ERROR: ${err}`);
+    console.log(`ERROR: ${err}`)
   } else {
-    db.sequelize.sync({ alter: true });
+    db.sequelize.sync({ alter: true })
 
     if (!fs.existsSync("public")) {
-      fs.mkdirSync("public");
+      fs.mkdirSync("public")
     }
-    console.log(`APP RUNNING at ${PORT} ✅`);
+    console.log(`APP RUNNING at ${PORT} ✅`)
   }
-});
+})
