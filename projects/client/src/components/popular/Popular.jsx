@@ -53,7 +53,7 @@ const Popular = ({
                     <div className="destImage">
                       {properties_image.map((val) => (
                         <img
-                          src={`http://localhost:8000/public/${val.image_url}`}
+                          src={`https://jcwd220204.purwadhikabootcamp.com/projects/server/public/${val.image_url}`}
                         />
                       ))}
 

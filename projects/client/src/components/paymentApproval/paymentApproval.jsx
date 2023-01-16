@@ -125,7 +125,7 @@ const PaymentApproval = () => {
           {userEmail}
         </Text>
         <Image
-          src={`http://localhost:8000/public/${paymentProof}`}
+          src={`https://jcwd220204.purwadhikabootcamp.com/projects/server/public/${paymentProof}`}
           width="100%"
           height="100%"
           mb="15px"
