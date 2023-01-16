@@ -41,9 +41,9 @@ const EditProperty = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: listing.name,
-      address: listing.address,
-      description: listing.description,
+      name: listing?.name,
+      address: listing?.address,
+      description: listing?.description,
     },
     onSubmit: async ({ name, address, description, rules }) => {
       try {

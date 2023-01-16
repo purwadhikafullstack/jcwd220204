@@ -15,9 +15,9 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
+    "username": "group4jcwd220204",
+    "password": "asd123",
+    "database": "jcwd220204",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }
