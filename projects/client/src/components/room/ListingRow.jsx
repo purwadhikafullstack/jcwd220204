@@ -82,7 +82,7 @@ const ListingRow = ({ name, image_url, id, properties, address, city }) => {
         >
           <Flex flex={0.5} ml="-10px">
             <Image
-              src={`http://localhost:8000/public/${getImages[0]}`}
+              src={`https://jcwd220204.purwadhikabootcamp.com/projects/server/public/${getImages[0]}`}
               borderRadius="2xl"
               h="130px"
               mt={"20px"}

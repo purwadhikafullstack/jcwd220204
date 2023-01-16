@@ -20,7 +20,7 @@
 
 // module.exports = emailer
 
-const nodemailer = require("nodemailer")
+const nodemailer = require("nodemailer");
 
 const emailer = async ({
   to,
@@ -33,17 +33,17 @@ const emailer = async ({
   cid,
 }) => {
   if (!to)
-    throw new Error("Emailer need recipient email. `to` parameter is missing")
+    throw new Error("Emailer need recipient email. `to` parameter is missing");
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: process.env.NODEMAILER_EMAIL,
-      pass: process.env.NODEMAILER_PASS,
+      user: "nginepin9433@gmail.com",
+      pass: "nnhxgbehhcijebch",
     },
     // secure: false,
     // port: 587,
-  })
+  });
   await transporter.sendMail({
     to, //Email penerima
     subject, //Subject email
@@ -53,7 +53,7 @@ const emailer = async ({
     filename,
     path,
     cid,
-  })
-}
+  });
+};
 
-module.exports = emailer
+module.exports = emailer;

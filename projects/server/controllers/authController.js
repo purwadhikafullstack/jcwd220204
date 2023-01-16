@@ -1,23 +1,23 @@
-const { Op } = require("sequelize")
-const db = require("../models")
-const User = db.User
-const bcrypt = require("bcrypt")
-const { signToken } = require("../lib/jwt")
-const { verifyGoogleToken } = require("../lib/firebase")
+const { Op } = require("sequelize");
+const db = require("../models");
+const User = db.User;
+const bcrypt = require("bcrypt");
+const { signToken } = require("../lib/jwt");
+const { verifyGoogleToken } = require("../lib/firebase");
 
 const authController = {
   registerUser: async (req, res) => {
     try {
-      const { email, username, phone_number, role, loginWith } = req.body
+      const { email, username, phone_number, role, loginWith } = req.body;
 
       const findUserByEmail = await User.findOne({
         where: { email },
-      })
+      });
 
       if (findUserByEmail) {
         return res.status(400).json({
           message: "Another account is using the same email",
-        })
+        });
       }
 
       await User.create({
@@ -26,34 +26,34 @@ const authController = {
         phone_number,
         role,
         loginWith,
-      })
+      });
 
       return res.status(200).json({
         message: "User registered",
-      })
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return res.status(500).json({
         message: "Server error",
-      })
+      });
     }
   },
   registerTenant: async (req, res) => {
     try {
-      const { email, username, phone_number, role, loginWith } = req.body
+      const { email, username, phone_number, role, loginWith } = req.body;
 
       if (req.file) {
-        req.body.ktp = req.file.filename
+        req.body.ktp = req.file.filename;
       }
 
       const findUserByEmail = await User.findOne({
         where: { email },
-      })
+      });
 
       if (findUserByEmail) {
         return res.status(400).json({
           message: "Another account is using the same email",
-        })
+        });
       }
 
       await User.create({
@@ -63,44 +63,44 @@ const authController = {
         role,
         ktp: req.body.ktp,
         loginWith,
-      })
+      });
 
       return res.status(200).json({
         message: "User registered",
-      })
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return res.status(500).json({
         message: "Server error",
-      })
+      });
     }
   },
 
   refreshToken: async (req, res) => {
     try {
-      const findUserById = await User.findByPk(req.user.id)
+      const findUserById = await User.findByPk(req.user.id);
 
       const renewedToken = signToken({
         id: req.user.id,
-      })
+      });
 
       return res.status(200).json({
         message: "Renewed user token",
         data: findUserById,
         token: renewedToken,
-      })
+      });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return res.status(500).json({
         message: "Server error",
-      })
+      });
     }
   },
   loginUser: async (req, res) => {
     try {
-      const { googleToken } = req.body
+      const { googleToken } = req.body;
 
-      const { email } = await verifyGoogleToken(googleToken)
+      const { email } = await verifyGoogleToken(googleToken);
       // console.log(googleToken)
       const [user] = await User.findOrCreate({
         where: { email },
@@ -108,69 +108,69 @@ const authController = {
           is_verified: true,
           loginWith: "google",
         },
-      })
+      });
 
       if (user.role !== "user") {
-        throw new Error("user not found")
+        throw new Error("user not found");
       }
 
       const token = signToken({
         id: user.id,
-      })
+      });
 
       return res.status(201).json({
         message: "User logged in",
         data: user,
         token,
-      })
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return res.status(500).json({
         message: "Server error",
-      })
+      });
     }
   },
   loginTenant: async (req, res) => {
     try {
-      const { googleToken } = req.body
+      const { googleToken } = req.body;
 
-      const { email } = await verifyGoogleToken(googleToken)
+      const { email } = await verifyGoogleToken(googleToken);
       // console.log(googleToken)
       const [user] = await User.findOrCreate({
         where: { email },
-      })
+      });
 
       if (user.role !== "tenant") {
-        throw new Error("tenant not found")
+        throw new Error("tenant not found");
       }
 
       const token = signToken({
         id: user.id,
-      })
+      });
 
       return res.status(201).json({
         message: "User logged in",
         data: user,
         token,
-      })
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return res.status(500).json({
         message: "Server error",
-      })
+      });
     }
   },
 
   verifyUser: async (req, res) => {
     try {
-      const { verification_token } = req.query
+      const { verification_token } = req.query;
 
-      const validToken = validateVerificationToken(verification_token)
+      const validToken = validateVerificationToken(verification_token);
 
       if (!validToken) {
         res.status(401).json({
           message: "Token invalid",
-        })
+        });
       }
 
       await User.update(
@@ -180,34 +180,34 @@ const authController = {
             id: validToken.id,
           },
         }
-      )
+      );
 
-      return res.redirect("http://localhost:3000/login")
+      return res.redirect("https://jcwd220204.purwadhikabootcamp.com/login");
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return res.status(500).json({
         message: "server error",
-      })
+      });
     }
   },
   getAllUsers: async (req, res) => {
     try {
-      const findAllUser = await User.findAll()
+      const findAllUser = await User.findAll();
 
       return res.status(200).json({
         message: "Get all user",
         data: findAllUser,
-      })
+      });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return res.status(500).json({
         message: "Server Error",
-      })
+      });
     }
   },
   getUserById: async (req, res) => {
     try {
-      const { id } = req.params
+      const { id } = req.params;
 
       const findUserById = await User.findByPk(id, {
         includes: [
@@ -215,22 +215,22 @@ const authController = {
             models: db.User,
           },
         ],
-      })
+      });
       return res.status(200).json({
         message: "Find user by Id",
         data: findUserById,
-      })
+      });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return res.status(500).json({
         message: "Server error",
-      })
+      });
     }
   },
   editUserProfile: async (req, res) => {
     try {
       if (req.file) {
-        req.body.profile_picture = req.file.filename
+        req.body.profile_picture = req.file.filename;
       }
 
       const findUserByUsernameOrEmail = await User.findOne({
@@ -240,12 +240,12 @@ const authController = {
             email: req.body.email || "",
           },
         },
-      })
+      });
 
       if (findUserByUsernameOrEmail) {
         return res.status(400).json({
           message: "Username or email has been taken",
-        })
+        });
       }
 
       await User.update(
@@ -255,20 +255,20 @@ const authController = {
             id: req.user.id,
           },
         }
-      )
-      const findUserById = await User.findByPk(req.user.id)
+      );
+      const findUserById = await User.findByPk(req.user.id);
 
       return res.status(200).json({
         message: "Edited user data",
         data: findUserById,
-      })
+      });
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return res.status(500).json({
         message: "Server error",
-      })
+      });
     }
   },
-}
+};
 
-module.exports = authController
+module.exports = authController;

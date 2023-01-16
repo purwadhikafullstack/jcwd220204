@@ -181,7 +181,7 @@ const PostPropImg = () => {
                 width="100%"
                 h="100%"
                 objectFit="cover"
-                src={`http://localhost:8000/public/${val.image_url}`}
+                src={`https://jcwd220204.purwadhikabootcamp.com/projects/server/public/${val.image_url}`}
               />
               <Modal isCentered isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
