@@ -182,7 +182,7 @@ const authController = {
         }
       );
 
-      return res.redirect("https://jcwd220204.purwadhikabootcamp.com/login");
+      return res.redirect(`${process.env.DOMAIN_NAME}/login`);
     } catch (err) {
       console.log(err);
       return res.status(500).json({
