@@ -8,7 +8,7 @@ const fs = require("fs");
 const handlebars = require("handlebars");
 const Transaction = db.Transaction;
 const User = db.User;
-
+const path = require("path");
 const transactionController = {
   paymentProof: async (req, res) => {
     try {
@@ -30,7 +30,7 @@ const transactionController = {
 
       const postImg = await db.Transaction.update(
         {
-          payment_proof: `${process.env.SERVER_URL}/${req.file.filename}`,
+          payment_proof: req.file.filename,
           status: "waiting for tenant confirmation",
         },
         {
@@ -180,7 +180,7 @@ const transactionController = {
       const getRoomImg = findRoomImg.Images[0].picture_url;
 
       const rawHtml = fs.readFileSync(
-        path.resolve(__dirname, "templates/reminderDetail.html"),
+        path.resolve(__dirname, "../templates/reminderDetail.html"),
         "utf-8"
       );
       const compiledHTML = handlebars.compile(rawHtml);
@@ -207,17 +207,23 @@ const transactionController = {
         attachments: [
           {
             filename: getPropImg,
-            path: `${__dirname}/.././public/${getPropImg}`,
+            path: path.resolve(
+              __dirname,
+              `../public/${getPropImg.split("/")[4]}`
+            ),
             cid: "getPropImg",
           },
           {
             filename: getRoomImg,
-            path: `${__dirname}/.././public/${getRoomImg}`,
+            path: path.resolve(
+              __dirname,
+              `../public/${getRoomImg.split("/")[4]}`
+            ),
             cid: "getRoomImg",
           },
           {
             filename: "Cart.gif",
-            path: `${__dirname}/.././templates/mail-Image/Cart.gif`,
+            path: path.resolve(__dirname, "../templates/mail-Image/Cart.gif"),
             cid: "Cart",
           },
         ],

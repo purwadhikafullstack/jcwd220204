@@ -133,8 +133,8 @@ const OrderList = () => {
                         {val.status === "in progress" && (
                           <Badge colorScheme={"linkedin"}> In progress</Badge>
                         )}
-                        {val.status === "cancelled" && (
-                          <Badge colorScheme={"red"}> Cancelled</Badge>
+                        {val.status === "canceled" && (
+                          <Badge colorScheme={"red"}> Canceled</Badge>
                         )}
                       </p>
                       <Text>Cust. name: {val.User.username}</Text>
