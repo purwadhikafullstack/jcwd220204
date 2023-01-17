@@ -82,7 +82,7 @@ const ListingRow = ({ name, image_url, id, properties, address, city }) => {
         >
           <Flex flex={0.5} ml="-10px">
             <Image
-              src={`${process.env.REACT_APP_IMG}${getImages[0]}`}
+              src={getImages[0]}
               borderRadius="2xl"
               h="130px"
               mt={"20px"}

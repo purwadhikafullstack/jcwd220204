@@ -2,7 +2,7 @@ const { Op } = require("sequelize");
 const db = require("../models");
 const Properties = db.Property;
 const fs = require("fs");
-
+const path = require("path");
 const Room = db.PropertyItem;
 const Cities = db.Cities;
 
@@ -161,7 +161,7 @@ module.exports = {
       const propId = createdNewProperty.id;
       const newPropImg = img_path.map((item) => {
         return {
-          image_url: item,
+          image_url: `${process.env.SERVER_URL}/${item}`,
           PropertyId: propId,
         };
       });
@@ -258,7 +258,13 @@ module.exports = {
           id: req.params.id,
         },
       });
-      fs.unlinkSync(path + fileName.image_url);
+
+      fs.unlinkSync(
+        path.resolve(
+          __dirname,
+          `../../public/${fileName.image_url.split("/")[4]}`
+        )
+      );
 
       return res.status(200).json({
         message: "Image deleted",

@@ -224,7 +224,7 @@ const ListingDetails = () => {
           {images?.map((val) => (
             <Image
               // src={val.image_url}
-              src={`${process.env.REACT_APP_IMG}${val.image_url}`}
+              src={val.image_url}
               rounded={"md"}
               fit={"cover"}
               align={"center"}

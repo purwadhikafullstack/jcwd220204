@@ -3,7 +3,7 @@ const db = require("../models");
 const automaticPaymentCheck = require("../schedule/paymentCheck");
 const automaticSendMail = require("../schedule/reminderCheckin");
 const emailer = require("../lib/emailer");
-
+const path = require("path");
 const fs = require("fs");
 const handlebars = require("handlebars");
 const Transaction = db.Transaction;
