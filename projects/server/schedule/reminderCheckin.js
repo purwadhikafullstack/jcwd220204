@@ -12,8 +12,8 @@ const dummy = {
 
 const sendAutoEmail = async (objectTransaction) => {
   const getStartDate = objectTransaction.start_date;
-  const reminder = moment(getStartDate).subtract(1, "days");
-  // const reminder = moment().add(1, "minutes")
+  // const reminder = moment(getStartDate).subtract(1, "days");
+  const reminder = moment().add(1, "minutes");
   schedule.scheduleJob(new Date(reminder), async () => {
     try {
       const transactionData = await db.Transaction.findByPk(
@@ -35,7 +35,7 @@ const sendAutoEmail = async (objectTransaction) => {
         !transactionData.is_checked
       ) {
         const rawHtml = fs.readFileSync(
-          path.resolve(__dirname, ".././templates/checkinReminder.html"),
+          path.resolve(__dirname, "../templates/checkinReminder.html"),
           "utf-8"
         );
         const compiledHTML = handlebars.compile(rawHtml);

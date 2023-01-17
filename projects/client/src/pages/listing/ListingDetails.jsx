@@ -279,10 +279,10 @@ const ListingDetails = () => {
       <Box py={{ base: 18, md: 7 }}>
         <Box color={"blue"} textAlign="center">
           <Text>This is a day information from your full booked room </Text>
-          {/* <Calendar
+          <Calendar
             dateCellRender={DateCellRender}
             style={{ textTransform: "uppercase", fontSize: "0.7rem" }}
-          /> */}
+          />
         </Box>
         <Divider borderColor={useColorModeValue("gray.200", "gray.600")} />
         <HStack justifyContent={"space-between"}>
