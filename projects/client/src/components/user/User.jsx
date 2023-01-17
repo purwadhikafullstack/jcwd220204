@@ -125,7 +125,7 @@ const UserPage = ({
             >
               {property_image?.map((value) => (
                 <Image
-                  src={`${process.env.REACT_APP_IMG}${value.image_url}`}
+                  src={value.image_url}
                   rounded={"md"}
                   fit={"cover"}
                   align={"center"}
@@ -205,7 +205,7 @@ const UserPage = ({
               >
                 {room_image.map((values) => (
                   <Image
-                    src={`${process.env.REACT_APP_IMG}${values.picture_url}`}
+                    src={values.picture_url}
                     rounded={"md"}
                     fit={"cover"}
                     align={"center"}

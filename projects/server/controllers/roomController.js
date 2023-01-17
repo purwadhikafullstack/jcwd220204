@@ -59,7 +59,7 @@ module.exports = {
       const roomId = createNewRoom.id;
       const newRoomImg = img_path.map((item) => {
         return {
-          picture_url: item,
+          picture_url: `${process.env.SERVER_URL}/${item}`,
           PropertyItemId: roomId,
         };
       });
@@ -139,7 +139,13 @@ module.exports = {
           id: req.params.id,
         },
       });
-      fs.unlinkSync(path + fileName.picture_url);
+      fs.unlinkSync(
+        path.resolve(
+          __dirname,
+          `../../public/${fileName.picture_url.split("/")[4]}`
+        )
+      );
+
       return res.status(200).json({
         message: "Image deleted",
       });

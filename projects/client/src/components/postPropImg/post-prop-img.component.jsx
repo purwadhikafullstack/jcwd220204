@@ -182,7 +182,7 @@ const PostPropImg = () => {
                 width="100%"
                 h="100%"
                 objectFit="cover"
-                src={`${process.env.REACT_APP_IMG}${val.image_url}`}
+                src={val.image_url}
               />
               <Modal isCentered isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
