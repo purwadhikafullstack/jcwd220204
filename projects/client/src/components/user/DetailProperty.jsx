@@ -170,7 +170,7 @@ const DetailProperty = () => {
             <Image
               style={contentStyle}
               //   src={val.image_url}
-              src={`https://jcwd220204.purwadhikabootcamp.com/projects/server/public/${val.image_url}`}
+              src={`${process.env.REACT_APP_IMG}${val.image_url}`}
               rounded={"md"}
               fit={"cover"}
               align={"center"}
@@ -188,7 +188,7 @@ const DetailProperty = () => {
             <HStack paddingBottom={"10px"}>
               <Avatar2
                 name={property?.User?.username}
-                src={`https://jcwd220204.purwadhikabootcamp.com/projects/server/public/${property?.User?.profile_picture}`}
+                src={`${process.env.REACT_APP_IMG}${property?.User?.profile_picture}`}
               />
               <Text>Hosted by {property.User?.username}</Text>
             </HStack>
@@ -343,7 +343,7 @@ const DetailProperty = () => {
                     >
                       {val.Images.map((value) => (
                         <Image
-                          src={`https://jcwd220204.purwadhikabootcamp.com/projects/server/public/${value.picture_url}`}
+                          src={`${process.env.REACT_APP_IMG}${value.picture_url}`}
                           rounded={"md"}
                           fit={"cover"}
                           alignItems={"center"}
@@ -400,7 +400,7 @@ const DetailProperty = () => {
                   <HStack>
                     <Avatar2
                       size={"md"}
-                      src={`https://jcwd220204.purwadhikabootcamp.com/projects/server/public/${val.User.profile_picture}`}
+                      src={`${process.env.REACT_APP_IMG}${val.User.profile_picture}`}
                     />
                     <VStack>
                       <Text fontSize={"15px"}>{val.User.username}</Text>
