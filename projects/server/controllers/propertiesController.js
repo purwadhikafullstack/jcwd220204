@@ -279,7 +279,7 @@ module.exports = {
       });
 
       const newImgProp = await db.PropertyImage.create({
-        image_url: req.file.filename,
+        image_url: `${process.env.SERVER_URL}/${req.file.filename}`,
         PropertyId: req.params.id,
       });
 

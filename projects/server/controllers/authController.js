@@ -43,7 +43,7 @@ const authController = {
       const { email, username, phone_number, role, loginWith } = req.body;
 
       if (req.file) {
-        req.body.ktp = req.file.filename;
+        req.body.ktp = `${process.env.SERVER_URL}/${req.file.filename}`;
       }
 
       const findUserByEmail = await User.findOne({
@@ -230,7 +230,7 @@ const authController = {
   editUserProfile: async (req, res) => {
     try {
       if (req.file) {
-        req.body.profile_picture = req.file.filename;
+        req.body.profile_picture = `${process.env.SERVER_URL}/${req.file.filename}`;
       }
 
       const findUserByUsernameOrEmail = await User.findOne({

@@ -29,6 +29,7 @@ const PostPropImg = () => {
   const [propertyImage, setPropertyImage] = useState([])
   const [openId, setOpenId] = useState(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
+
   // =============================== Get Prop Image ========================================
   const getProperty = async () => {
     try {
@@ -181,7 +182,7 @@ const PostPropImg = () => {
                 width="100%"
                 h="100%"
                 objectFit="cover"
-                src={`https://jcwd220204.purwadhikabootcamp.com/projects/server/public/${val.image_url}`}
+                src={`${process.env.REACT_APP_IMG}${val.image_url}`}
               />
               <Modal isCentered isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />

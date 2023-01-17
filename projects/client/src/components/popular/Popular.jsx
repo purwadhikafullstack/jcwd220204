@@ -53,7 +53,7 @@ const Popular = ({
                     <div className="destImage">
                       {properties_image.map((val) => (
                         <img
-                          src={`https://jcwd220204.purwadhikabootcamp.com/projects/server/public/${val.image_url}`}
+                          src={`${process.env.REACT_APP_IMG}${val.image_url}`}
                         />
                       ))}
 

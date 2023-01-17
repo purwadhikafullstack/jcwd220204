@@ -30,7 +30,7 @@ const EditProperty = () => {
 
   const getProperty = async () => {
     try {
-      const responseProp = await axiosInstance.get(`property/${params.id}`)
+      const responseProp = await axiosInstance.get(`/property/${params.id}`)
       setListing(responseProp.data.data)
     } catch (error) {
       console.log(error)
