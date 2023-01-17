@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app"
+import { initializeApp } from "firebase/app";
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -8,7 +8,7 @@ import {
   signInWithGoogleRedirect,
   onAuthStateChanged,
   signInWithRedirect,
-} from "firebase/auth"
+} from "firebase/auth";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -20,22 +20,23 @@ const firebaseConfig = {
   messagingSenderId: "903799666581",
   appId: "1:903799666581:web:113b38f6ebd7282176289c",
   measurementId: "G-JTEHJKKP48",
-}
+};
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig)
-const googleProvider = new GoogleAuthProvider()
+const app = initializeApp(firebaseConfig);
+const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({
   prompt: "select_account",
-})
-export const auth = getAuth()
+});
+export const auth = getAuth(app);
 
-export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
+export const signInWithGooglePopup = () =>
+  signInWithPopup(auth, googleProvider);
 
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
-  if (!email || !password) return
+  if (!email || !password) return;
 
-  return await signInWithEmailAndPassword(auth, email, password)
-}
+  return await signInWithEmailAndPassword(auth, email, password);
+};
 
-export const signOutUser = async () => await signOut(auth)
+export const signOutUser = async () => await signOut(auth);
