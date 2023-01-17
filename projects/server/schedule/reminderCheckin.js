@@ -4,6 +4,7 @@ const moment = require("moment");
 const fs = require("fs");
 const emailer = require("../lib/emailer");
 const handlebars = require("handlebars");
+const path = require("path");
 
 const dummy = {
   id: 19,
@@ -34,7 +35,7 @@ const sendAutoEmail = async (objectTransaction) => {
         !transactionData.is_checked
       ) {
         const rawHtml = fs.readFileSync(
-          "templates/checkinReminder.html",
+          path.resolve(__dirname, ".././templates/checkinReminder.html"),
           "utf-8"
         );
         const compiledHTML = handlebars.compile(rawHtml);

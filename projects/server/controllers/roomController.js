@@ -158,7 +158,7 @@ module.exports = {
         },
       });
       const newImgRoom = await db.Images.create({
-        picture_url: req.file.filename,
+        picture_url: `${process.env.SERVER_URL}/${req.file.filename}`,
         PropertyItemId: req.params.id,
       });
       return res.status(200).json({
