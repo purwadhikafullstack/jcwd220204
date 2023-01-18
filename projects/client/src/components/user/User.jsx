@@ -82,6 +82,7 @@ const UserPage = ({
           title: "Review submitted",
           status: "success",
         })
+        window.location.reload(false)
       } catch (err) {
         console.log(err)
         toast({
@@ -172,7 +173,7 @@ const UserPage = ({
                 )}
                 {status === "in progress" && (
                   <Progress
-                    percent={80}
+                    percent={100}
                     status="active"
                     strokeColor={{
                       "0%": "#108ee9",
@@ -218,7 +219,7 @@ const UserPage = ({
         </Grid>
         {review === null ? (
           moment(end_date).utc().format("YYYY-MM-DD") <= today &&
-          status === "accepted" ? (
+          status === "in progress" ? (
             <form onSubmit={formik.handleSubmit}>
               <Textarea
                 placeholder="write your review here"
