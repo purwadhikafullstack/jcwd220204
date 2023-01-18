@@ -27,7 +27,7 @@ const sendAutoEmail = async (objectTransaction) => {
       );
 
       const getUserEmail = transactionData.User.email;
-      const checkIn = moment(transactionData.start_date).format("DD-mm-YYYY");
+      const checkIn = moment(transactionData.start_date).format("DD-MM-YYYY");
       const propName = transactionData.Property.name;
 
       if (

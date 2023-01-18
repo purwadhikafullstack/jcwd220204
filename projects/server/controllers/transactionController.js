@@ -3,12 +3,13 @@ const db = require("../models");
 const automaticPaymentCheck = require("../schedule/paymentCheck");
 const automaticSendMail = require("../schedule/reminderCheckin");
 const emailer = require("../lib/emailer");
-const path = require("path");
+
 const fs = require("fs");
 const handlebars = require("handlebars");
 const Transaction = db.Transaction;
 const User = db.User;
 const path = require("path");
+
 const transactionController = {
   paymentProof: async (req, res) => {
     try {
@@ -30,7 +31,7 @@ const transactionController = {
 
       const postImg = await db.Transaction.update(
         {
-          payment_proof: req.file.filename,
+          payment_proof: `${process.env.SERVER_URL}/${req.file.filename}`,
           status: "waiting for tenant confirmation",
         },
         {
