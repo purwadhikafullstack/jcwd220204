@@ -60,7 +60,7 @@ const OrderList = () => {
         backgroundColor={"whiteAlpha.900"}
         mb="10vh"
         // ml={{ base: "2vw", md: "10vw" }}
-        height="100vh"
+        height="fit-content"
       >
         <Link to={`/tenant/${findParams}`}>
           <GrLinkPrevious size={"25px"} />
@@ -79,6 +79,7 @@ const OrderList = () => {
             templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }}
             padding="10px"
             gap={"20px"}
+            marginBottom="20px"
           >
             {orderList.map((val) => (
               <div className="site-card-wrapper">

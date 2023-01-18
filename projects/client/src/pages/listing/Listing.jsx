@@ -66,7 +66,7 @@ const Listing = () => {
         backgroundColor={"whiteAlpha.900"}
         // ml={{ base: "5vw", md: "10vw" }}
         // mb="10vh"
-        height="100vh"
+        height="fit-content"
       >
         <VStack>
           <Box

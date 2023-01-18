@@ -336,6 +336,7 @@ const RoomCard = ({
                                   name="capacity"
                                   defaultValue={capacity}
                                   onChange={formChangeHandler}
+                                  min="1"
                                 />
                                 <InputRightAddon children="person" />
                               </InputGroup>
@@ -349,6 +350,7 @@ const RoomCard = ({
                                   name="price"
                                   defaultValue={price}
                                   onChange={formChangeHandler}
+                                  min="1"
                                 />
                                 <InputRightAddon children="¥/ night" />
                               </InputGroup>

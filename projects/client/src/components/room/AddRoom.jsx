@@ -216,7 +216,7 @@ const AddRoom = () => {
                   name="capacity"
                   value={formik.values.capacity}
                 />
-                <InputRightAddon children="person" />
+                <InputRightAddon children="person" min="1" />
               </InputGroup>
             </FormControl>
             <FormControl isRequired>
@@ -229,7 +229,7 @@ const AddRoom = () => {
                   onChange={formChangeHandler}
                   value={formik.values.price}
                 />
-                <InputRightAddon children="¥/ night" />
+                <InputRightAddon children="¥/ night" min="1" />
               </InputGroup>
             </FormControl>
             <Stack spacing="6">
